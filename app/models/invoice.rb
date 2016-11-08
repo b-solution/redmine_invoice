@@ -22,10 +22,14 @@ class Invoice < ActiveRecord::Base
                         :issue_contract_amount, :tax_amount, :invoice_amount, :issue_ratio_done
 
   def editable?
-    User.current.allowed_to_globally?(:edit_client)
+    User.current.allowed_to_globally?(:manage_invoices)
   end
 
   def deletable?
-    User.current.allowed_to_globally?(:delete_client)
+    User.current.allowed_to_globally?(:manage_invoices)
+  end
+
+  def viewable?
+    User.current.allowed_to_globally?(:view_invoices)
   end
 end

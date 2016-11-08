@@ -24,8 +24,8 @@
           <td><%= invoice.tax_amount %> % </td>
           <td><%= invoice.invoice_amount %></td>
 
-          <td><%= link_to 'show', invoice_path(invoice) %></td>
-          <td><%= link_to 'remove', invoice_path(invoice), method: 'delete' %></td>
+          <td><%= link_to('show', invoice_path(invoice)) if @invoice.viewable? %></td>
+          <td><%= link_to('remove', invoice_path(invoice), method: 'delete') if @invoice.deletable?  %></td>
         </tr>
     <% end %>
 

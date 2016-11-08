@@ -1,10 +1,10 @@
 <% if @issue %>
     <p>
-      <%= link_to 'Create invoice', new_invoice_path(issue_id: @issue.id) %>
+      <%= link_to 'Create invoice', new_invoice_path(issue_id: @issue.id) if User.current.allowed_to_globally?(:manage_invoices) %>
     </p>
 
     <p>
-      <%= link_to 'All invoice',    invoices_path(issue_id: @issue.id) %>
+      <%= link_to 'All invoices', invoices_path(issue_id: @issue.id) if User.current.allowed_to_globally?(:view_invoices) %>
     </p>
 
     <p>
