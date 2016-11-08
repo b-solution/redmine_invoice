@@ -1,0 +1,26 @@
+<div class="autoscroll">
+  <table class="list issues">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @clients.each do |client| %>
+        <tr>
+          <td><%= client.name %></td>
+          <td><%= client.email %></td>
+          <td><%= client.home_address %></td>
+          <td><%= client.phone %></td>
+          <td><%= link_to 'edit', edit_client_path(client) %></td>
+          <td><%= link_to 'remove', client_path(client), method: 'delete' %></td>
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+</div>

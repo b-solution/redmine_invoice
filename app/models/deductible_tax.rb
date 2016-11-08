@@ -1,0 +1,3 @@
+class DeductibleTax < Tax
+
+end

@@ -1,0 +1,9 @@
+<%= render partial: 'action_menu' %>
+<h2>Clients</h2>
+
+<% if @clients.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+    <%= render :partial => 'list', :locals => {:clients => @clients} %>
+    <p class="pagination"><%#= pagination_links_full @entry_pages, @entry_count %></p>
+<% end %>

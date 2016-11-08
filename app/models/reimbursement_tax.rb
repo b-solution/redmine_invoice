@@ -1,0 +1,3 @@
+class ReimbursementTax < Tax
+
+end

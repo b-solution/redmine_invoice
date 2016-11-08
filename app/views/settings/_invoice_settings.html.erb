@@ -1,0 +1,34 @@
+<p>
+  <label>
+    <%= l(:field_company_name) %>
+  </label>
+  <%= text_field_tag("settings[company_name]",  settings['company_name']) %>
+</p>
+
+<p>
+  <label>
+    <%= l(:field_home_address) %>
+  </label>
+  <%= text_field_tag("settings[address]",  settings['address'], :maxlength=> 255) %>
+</p>
+
+<p>
+  <label>
+    <%= l(:field_email) %>
+  </label>
+  <%= text_field_tag("settings[email]",  settings['email']) %>
+</p>
+
+<p>
+  <label>
+    <%= l(:field_phone) %>
+  </label>
+  <%= text_field_tag("settings[phone]",  settings['phone']) %>
+</p>
+
+<p>
+  <label>
+    <%= l(:redmine_footer_info) %>
+  </label>
+  <%= text_area_tag("settings[footer_info]",  settings['footer_info']) %>
+</p>

@@ -1,0 +1,26 @@
+<p>
+  <b>Project:</b> <%= @invoice.project %>
+</p>
+<p>
+  <b>Project work order number:</b> <%= @invoice.project.work_order_number %>
+</p>
+<p>
+  <b>Project work order date:</b> <%= @invoice.project.work_order_date %>
+</p>
+
+
+<p>
+  <b>Issue:</b> <%= @issue %>
+</p>
+
+<p>
+  <b>Client:</b> <%= @client %>
+</p>
+<%= f.hidden_field :issue_id %>
+<%= f.hidden_field :project_id %>
+<%= f.hidden_field :client_id %>
+<%= labelled_fields_for :invoice, @invoice do |f| %>
+    <% if @invoice.safe_attribute? 'issue_ratio_done' %>
+        <p><%= f.number_field :issue_ratio_done, step: 1 %>%</p>
+    <% end %>
+<% end %>

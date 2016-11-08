@@ -1,0 +1,4 @@
+<div class="contextual">
+  <%= link_to l(:button_edit), edit_invoice_path(@invoice), :class => 'icon icon-edit', :accesskey => accesskey(:edit) if @invoice and @invoice.editable? %>
+  <%= link_to l(:button_delete), invoice_path(@invoice), :data => {:confirm => 'Are you sure de delete this invoice'}, :method => :delete, :class => 'icon icon-del' if @invoice && @invoice.deletable? %>
+</div>

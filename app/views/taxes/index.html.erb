@@ -1,0 +1,9 @@
+<%= render partial: 'action_menu' %>
+<h2>Taxes</h2>
+
+<% if @taxes.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+    <%= render :partial => 'list', :locals => {:taxes => @taxes} %>
+    <p class="pagination"><%#= pagination_links_full @entry_pages, @entry_count %></p>
+<% end %>

@@ -1,0 +1,34 @@
+<div class="autoscroll">
+  <table class="list issues" >
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Issue</th>
+      <th>client</th>
+      <th>Done ratio</th>
+      <th>amount without taxes</th>
+      <th>Taxes</th>
+      <th>Amount With taxes</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% invoices.each do |invoice| %>
+        <tr>
+          <td><%= invoice.id %></td>
+          <td><%= invoice.issue.subject %></td>
+          <td><%= invoice.client.name %></td>
+          <td><%= invoice.issue_ratio_done %></td>
+          <td><%= invoice.issue_contract_amount %></td>
+          <td><%= invoice.tax_amount %> % </td>
+          <td><%= invoice.invoice_amount %></td>
+
+          <td><%= link_to 'show', invoice_path(invoice) %></td>
+          <td><%= link_to 'remove', invoice_path(invoice), method: 'delete' %></td>
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+</div>

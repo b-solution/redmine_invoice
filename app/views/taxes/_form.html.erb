@@ -1,0 +1,29 @@
+<%= labelled_fields_for :tax, @tax do |f| %>
+    <%= error_messages_for 'tax' %>
+    <% if @tax.safe_attribute? 'name' %>
+        <p><%= f.text_field :name, :maxlength => 255, :required => true %></p>
+    <% end %>
+
+
+
+    <div class="splitcontent">
+      <div class="splitcontentleft">
+        <% if @tax.safe_attribute? 'type' %>
+            <p><%= f.select :type,options_for_select(Tax.get_classes_name), :required => true %></p>
+        <% end %>
+
+        <% if @tax.safe_attribute? 'rate' %>
+            <p><%= f.number_field :rate, step: 0.1, :required => true %></p>
+        <% end %>
+
+        <% if @tax.safe_attribute? 'applicable_from' %>
+            <p>
+              <%= f.date_field :applicable_from, :required => true %>
+            <%= calendar_for('tax_applicable_from') %>
+            </p>
+        <% end %>
+      </div>
+    </div>
+
+
+<% end %>

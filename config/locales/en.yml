@@ -1,0 +1,19 @@
+# English strings go here for Rails i18n
+en:
+  button_new_client: New client
+  button_new_tax: New Tax
+  label_new_client: New client
+  field_home_address: Address
+  field_phone: Phone
+  field_email: Email
+  field_rate: Rate
+  field_client: Client
+  field_contract_amount: Contract amount
+  field_work_order_date: Work order date
+  field_work_order_number: Work order No
+  field_company_name: Company name
+  redmine_footer_info: Footer information
+  field_issue_ratio_done: Done ratio
+  field_applicable_from: Applicable from
+  label_client_plural: Clients
+  label_tax_plural: Taxes

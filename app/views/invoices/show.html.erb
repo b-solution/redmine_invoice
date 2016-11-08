@@ -1,0 +1,132 @@
+<div>
+  <%= image_tag 'logo.png', plugin: 'redmine_invoice', style: 'width: 100%; height: 150px;' %>
+</div>
+
+<% setting =  Setting.plugin_redmine_invoice %>
+<p>
+  <%= setting['company_name'] %> <br/>
+  <%= setting['address'] %> <br/>
+  <%= setting['email'] %> <br/>
+  <%= setting['phone'] %> <br/>
+</p>
+
+<p>
+  <% year = Date.today.year %>
+  <b> Financial year :</b> <%= Date.today.month > 3 ? "#{year}-#{year+1}" : "#{year-1}-#{year}" %>
+</p>
+<p>
+  <b> Invoice no :</b> <%= "##{@invoice.id}" %>
+</p>
+<p>
+  <b> <%#= "#{@invoice.created_on}" %> </b>
+</p>
+
+<br/>
+
+<table>
+  <tbody>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  To:                         </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client %>              </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.home_address %> </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.email %>        </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.phone %>        </td></tr>
+  </tbody>
+</table>
+<br/>
+<table>
+  <tbody>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td><b>Project </b></td>          <td><%= @invoice.project %></td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td> <b>Contract value</b></td>   <td></td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td> <b><%= l(:field_work_order_number) %></b></td>   <td> <%= @invoice.project.work_order_number %></td>
+  </tr>
+
+  </tbody>
+</table>
+
+
+<table class="list table">
+  <thead>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <th>Particulars</th>
+    <th>Amount [Rs]</th>
+    <th>Amount [Rs]</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>
+      Cumulative Value upto this invoice As per annexure attached
+    </td>
+    <td> <%= @invoice.original_amount %>  </td>
+    <td>    </td>
+  </tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  <b>Less</b>  </td>
+    <td>   </td>
+    <td>    </td>
+  </tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>
+      Cumulative Value upto previous Invoice ( as per annexure attached)
+    </td>
+    <td> <%= @invoice.old_amount %>  </td>
+    <td>    </td>
+
+  </tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>
+      This Invoice amount
+    </td>
+    <td>   </td>
+    <td>  <%= @invoice.issue_contract_amount %>  </td>
+
+  </tr>
+
+  <% total_tax = 0 %>
+  <% @invoice.invoice_taxes.each do |tax| %>
+      <% total_tax += tax.rate %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td>
+          <%= tax.tax.name %> (<%= tax.rate %> % )
+        </td>
+        <td> </td>
+        <td>    </td>
+      </tr>
+  <% end %>
+
+  <% amount_tax = (@invoice.issue_contract_amount * (total_tax.to_f/100) ) %>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  </td>
+    <td> </td>
+    <td>  <%= amount_tax %>  </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>"></tr>
+  <tr class="<%= cycle('odd', 'even') %>"></tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  </td>
+    <td> </td>
+    <td>  <%= @invoice.issue_contract_amount  + amount_tax %> </td>
+  </tr>
+
+
+
+  </tbody>
+</table>
+
+Authorized signature
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<%= setting['footer_info'].html_safe %>

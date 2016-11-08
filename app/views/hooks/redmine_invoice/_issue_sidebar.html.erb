@@ -1,0 +1,17 @@
+<% if @issue %>
+    <p>
+      <%= link_to 'Create invoice', new_invoice_path(issue_id: @issue.id) %>
+    </p>
+
+    <p>
+      <%= link_to 'All invoice',    invoices_path(issue_id: @issue.id) %>
+    </p>
+
+    <p>
+      <%#= link_to 'Make payment',   new_payment_path(issue_id: @issue.id) %>
+    </p>
+
+    <p>
+      <%#= link_to 'View payments',  payments_path(issue_id: @issue.id) %>
+    </p>
+<% end %>

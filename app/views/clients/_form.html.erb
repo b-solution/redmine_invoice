@@ -1,0 +1,25 @@
+<%= labelled_fields_for :client, @client do |f| %>
+    <%= error_messages_for 'client' %>
+    <% if @client.safe_attribute? 'name' %>
+        <p><%= f.text_field :name, :maxlength => 255, :required => true %></p>
+    <% end %>
+
+
+    <% if @client.safe_attribute? 'home_address' %>
+        <p><%= f.text_field :home_address, :maxlength => 255, :required => true %></p>
+    <% end %>
+    <div class="splitcontent">
+      <div class="splitcontentleft">
+
+        <% if @client.safe_attribute? 'email' %>
+            <p><%= f.email_field :email, :maxlength => 255, :required => true %></p>
+        <% end %>
+
+        <% if @client.safe_attribute? 'phone' %>
+            <p><%= f.phone_field :phone, :maxlength => 255, :required => true %></p>
+        <% end %>
+      </div>
+    </div>
+
+
+<% end %>

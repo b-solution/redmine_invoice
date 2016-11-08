@@ -1,0 +1,5 @@
+<div class="contextual">
+  <%= link_to( l(:button_new_client), new_client_path, :class => 'icon icon-add') if params[:action] == 'index' %>
+  <%= link_to l(:button_edit), edit_client_path(@client), :class => 'icon icon-edit', :accesskey => accesskey(:edit) if @client and @client.editable? %>
+  <%= link_to l(:button_delete), client_path(@client), :data => {:confirm => 'Are you sure de delete this client'}, :method => :delete, :class => 'icon icon-del' if @client && @client.deletable? %>
+</div>

@@ -1,0 +1,28 @@
+<div class="autoscroll">
+  <table class="list issues">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Rate</th>
+      <th>Applicable from</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% taxes.each do |tax| %>
+        <tr>
+          <td><%= tax.name %></td>
+          <td><%= tax.rate %></td>
+          <td><%= tax.applicable_from %></td>
+
+          <td><%= link_to 'edit', edit_tax_path(tax) %></td>
+          <td><%= link_to 'remove', tax_path(tax), method: 'delete' %></td>
+        </tr>
+    <% end %>
+
+
+
+    </tbody>
+  </table>
+</div>
