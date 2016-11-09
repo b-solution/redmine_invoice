@@ -32,4 +32,11 @@ class Invoice < ActiveRecord::Base
   def viewable?
     User.current.allowed_to_globally?(:view_invoices)
   end
+
+  def deducted_tax
+    invoice_taxes.where('rate < 0').sum(:rate)
+  end
+ def reimbursed_tax
+    invoice_taxes.where('rate > 0').sum(:rate)
+  end
 end

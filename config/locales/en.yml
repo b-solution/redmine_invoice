@@ -7,6 +7,7 @@ en:
   field_phone: Phone
   field_email: Email
   field_rate: Rate
+  field_payments: Payments
   field_client: Client
   field_contract_amount: Contract amount
   field_work_order_date: Work order date
@@ -17,3 +18,12 @@ en:
   field_applicable_from: Applicable from
   label_client_plural: Clients
   label_tax_plural: Taxes
+  label_new_payment: New Payment
+  field_cheque_no: Cheque no
+  field_bank_name: Bank name
+  field_date_on_cheque: Date on chaque
+  field_cheque_amount: Cheque amount
+  field_invoice: Invoice id
+  field_invoice_amount: Invoice amount
+  field_tax_reimbursed_by_client: Tax reimbursed by client
+  field_tax_deducted_by_client: Tax deducted by client

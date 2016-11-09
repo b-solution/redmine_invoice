@@ -1,0 +1,14 @@
+<%= labelled_fields_for :payment, @payment do |f| %>
+    <%= error_messages_for 'payment' %>
+    <b>Project:</b> <%= @payment.project %> <br/>
+    <b> Issue: </b><%= @payment.issue %> <br/>
+    <b>Invoice number: </b><%= @payment.invoice_id %> <br/>
+    <%= f.hidden_field :issue_id %>
+    <%= f.hidden_field :project_id %>
+    <%= f.hidden_field :invoice_id %>
+    <p><%= f.text_field :cheque_no, :maxlength => 255, :required => true %></p>
+    <p><%= f.text_field :bank_name, :maxlength => 255, :required => true %></p>
+    <p><%= f.text_field :date_on_cheque, :required => true %><%= calendar_for('payment_date_on_cheque') %></p>
+    <p><%= f.text_field :cheque_amount, :maxlength => 255, :required => true %></p>
+
+<% end %>

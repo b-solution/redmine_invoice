@@ -1,0 +1,15 @@
+<div class="issue details">
+  <table class="subject_header">
+    <%= issue_fields_rows do |rows|
+      rows.left l(:field_project), @payment.project
+      rows.left l(:field_issue), @payment.issue
+      rows.left l(:field_client), @payment.invoice.client
+      rows.left l(:field_invoice), @payment.invoice.id
+      rows.left l(:field_invoice_amount), @payment.invoice.invoice_amount
+      rows.left l(:field_tax_reimbursed_by_client), "#{@payment.invoice.reimbursed_tax}%"
+      rows.left l(:field_tax_deducted_by_client), "#{@payment.invoice.deducted_tax}%"
+      rows.left l(:field_cheque_amount), @payment.cheque_amount
+
+    end %>
+  </table>
+</div>

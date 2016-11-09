@@ -1,5 +1,5 @@
 <div class="contextual">
-  <%= link_to( l(:button_new_tax), new_tax_path, :class => 'icon icon-add') if params[:action] == 'index' %>
+  <%= link_to( l(:button_new_tax), new_tax_path, :class => 'icon icon-add') %>
   <%= link_to l(:button_edit), edit_tax_path(@tax), :class => 'icon icon-edit', :accesskey => accesskey(:edit) if @tax and @tax.editable? %>
   <%= link_to l(:button_delete), tax_path(@tax), :data => {:confirm => 'Are you sure de delete this tax'}, :method => :delete, :class => 'icon icon-del' if @tax && @tax.deletable? %>
 </div>

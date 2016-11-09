@@ -18,7 +18,7 @@
   <b> Invoice no :</b> <%= "##{@invoice.id}" %>
 </p>
 <p>
-  <b> <%#= "#{@invoice.created_on}" %> </b>
+  <b> <%= "#{@invoice.created_at}" %> </b>
 </p>
 
 <br/>
@@ -130,3 +130,7 @@ Authorized signature
 <br/>
 <br/>
 <%= setting['footer_info'].html_safe %>
+
+<%= content_for :sidebar do %>
+ <%= render partial: 'sidebar' %>
+<% end %>

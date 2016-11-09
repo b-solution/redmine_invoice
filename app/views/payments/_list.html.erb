@@ -1,0 +1,39 @@
+<div class="autoscroll">
+  <table class="list issues">
+    <thead>
+    <tr>
+      <% if params[:invoice_id] %>
+          <th>Issue</th>
+      <% else %>
+          <th>Invoice number</th>
+      <% end %>
+      <th>Cheque Number</th>
+      <th>Bank name</th>
+      <th>Check amount</th>
+    
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% payments.each do |payment| %>
+        <tr>
+          <% if params[:invoice_id] %>
+              <td><%= link_to_issue payment.issue %></td>
+          <% else %>
+              <td><%= link_to payment.invoice.id, invoice_path(payment.invoice) %></td>
+          <% end %>
+
+          <td><%= payment.cheque_no %></td>
+          <td><%= payment.bank_name %></td>
+          <td><%= payment.check_amount %></td>
+          <td><%= link_to 'show', payment_path(payment) %></td>
+          <td><%= link_to 'edit', edit_payment_path(payment) %></td>
+          <td><%= link_to 'remove', payment_path(payment), method: 'delete' %></td>
+        </tr>
+    <% end %>
+
+    </tbody>
+  </table>
+</div>
