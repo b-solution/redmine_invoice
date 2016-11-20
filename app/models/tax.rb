@@ -11,7 +11,7 @@ class Tax < ActiveRecord::Base
   validates_numericality_of :rate, greater_than: 0
 
   def self.get_classes_name
-    subclasses.map(&:class_name)
+    subclasses.map(&:to_s)
   end
 
 
