@@ -27,6 +27,10 @@ Redmine::Plugin.register :redmine_invoice do
         User.current.admin?
       }
 
+  menu :project_menu, :invoices,
+       {:controller => 'invoices', :action => 'index'},
+       :caption => :label_invoice_plural,  param: 'project_id'
+
   settings  :partial => 'settings/invoice_settings',
             :default => {
                 'company_name' => '',
@@ -35,6 +39,8 @@ Redmine::Plugin.register :redmine_invoice do
                 'email' => '',
                 'footer_info' => ''
             }
+
+  Rails.application.config.assets.precompile += %w( cocoon.js )
 end
 
 Rails.application.config.to_prepare do

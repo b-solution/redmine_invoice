@@ -2,6 +2,7 @@ class PaymentsController < ApplicationController
   unloadable
   before_action :set_payment, only: [:edit, :update, :destroy, :show]
   before_action :authorize_global
+  before_action :find_project_by_project_id
 
   helper :issues
   include IssuesHelper
@@ -10,8 +11,6 @@ class PaymentsController < ApplicationController
   def index
     if params[:invoice_id]
       @payments = PaymentReceipt.where(invoice_id: params[:invoice_id] )
-    elsif params[:issue_id]
-      @payments = PaymentReceipt.where(issue_id: params[:issue_id] )
     else
       @payments = PaymentReceipt.all
     end
@@ -25,7 +24,6 @@ class PaymentsController < ApplicationController
   def new
     @payment = PaymentReceipt.new(invoice_id: params[:invoice_id])
     i = Invoice.find(params[:invoice_id])
-    @payment.issue_id = i.issue_id
     @payment.project_id = i.project_id
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -36,7 +34,7 @@ class PaymentsController < ApplicationController
     @payment.safe_attributes = payment_params
     if @payment.save
       respond_to do |format|
-        format.html { redirect_to payment_path(@payment), notice: 'Payment was successfully created.' }
+        format.html { redirect_to project_payment_path(@project, @payment), notice: 'Payment was successfully created.' }
       end
 
     else
@@ -54,7 +52,7 @@ class PaymentsController < ApplicationController
     @payment.safe_attributes = payment_params
     if @payment.save
       respond_to do |format|
-        format.html { redirect_to payment_path(@payment), notice: 'Payment was successfully updated.' }
+        format.html { redirect_to project_payment_path(@project, @payment), notice: 'Payment was successfully updated.' }
       end
 
     else
@@ -69,7 +67,7 @@ class PaymentsController < ApplicationController
     respond_to do |format|
       format.html {
         flash[:notice] = 'Payment was successfully destroyed.'
-        redirect_to payments_path
+        redirect_to project_payments_path(@project)
       }
       format.json { head :no_content }
     end

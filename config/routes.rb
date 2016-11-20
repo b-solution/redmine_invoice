@@ -3,5 +3,8 @@
 
 resources :clients
 resources :taxes
-resources :invoices
-resources :payments
+resources :invoices, only: [:new]
+resources :projects do
+  resources :invoices, except: [:edit, :update]
+  resources :payments
+end

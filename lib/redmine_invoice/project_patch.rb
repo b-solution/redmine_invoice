@@ -6,6 +6,7 @@ module  RedmineInvoice
       base.class_eval do
         safe_attributes 'client_id', 'work_order_date', 'work_order_number'
         belongs_to :client
+        has_many :invoices
       end
     end
     module InstanceMethods

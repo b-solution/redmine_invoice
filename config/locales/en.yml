@@ -18,6 +18,7 @@ en:
   field_applicable_from: Applicable from
   label_client_plural: Clients
   label_tax_plural: Taxes
+  label_invoice_plural: Invoices
   label_new_payment: New Payment
   field_cheque_no: Cheque no
   field_bank_name: Bank name

@@ -1,7 +1,7 @@
 <h2><%= l(:label_new_client) %></h2>
 <div class="box tabular">
   <div id="all_attributes">
-    <%= form_for @invoice, url: invoices_path, method: 'post' do |f| %>
+    <%= form_for [@project, @invoice], method: 'post' do |f| %>
         <%= render :partial => 'form', :locals => {:f => f} %>
         <%= submit_tag l(:button_create) %>
     <% end %>

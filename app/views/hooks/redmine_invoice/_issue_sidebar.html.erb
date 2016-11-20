@@ -1,17 +1,5 @@
 <% if @issue %>
     <p>
-      <%= link_to 'Create invoice', new_invoice_path(issue_id: @issue.id) if User.current.allowed_to_globally?(:manage_invoices) %>
-    </p>
-
-    <p>
-      <%= link_to 'All invoices', invoices_path(issue_id: @issue.id) if User.current.allowed_to_globally?(:view_invoices) %>
-    </p>
-
-    <p>
-      <%#= link_to 'Make payment',   new_payment_path(issue_id: @issue.id) %>
-    </p>
-
-    <p>
-      <%= link_to 'View payments',  payments_path(issue_id: @issue.id) %>
+      <%= link_to 'View payments',  project_payments_path(@project, issue_id: @issue.id) %>
     </p>
 <% end %>

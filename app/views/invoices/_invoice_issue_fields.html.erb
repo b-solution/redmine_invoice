@@ -1,0 +1,27 @@
+<div class="nested-fields row">
+  <p>
+
+    <%= f.text_field :issue_id, :size => 6, class: 'issues_autocomplete' %>
+  </p>
+  </div>
+
+<%= javascript_tag do %>
+    observeAutocompleteClassField('issues_autocomplete', '<%= escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))%>', {
+    select: function(event, ui) {
+    }
+    });
+
+    function observeAutocompleteClassField(fieldClass, url, options) {
+    $(document).ready(function() {
+    $('.'+fieldClass).autocomplete($.extend({
+    source: url,
+    minLength: 2,
+    position: {collision: "flipfit"},
+    search: function(){$(this).addClass('ajax-loading');},
+    response: function(){$(this).removeClass('ajax-loading');}
+    }, options));
+    $(this).addClass('autocomplete');
+    });
+    }
+
+<% end %>

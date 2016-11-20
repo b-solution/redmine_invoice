@@ -1,5 +1,5 @@
 <h3><%= l(:field_payments) %></h3>
 <ul>
-  <li><%= link_to('See related payment', payments_path(invoice_id: @invoice.id)) %></li>
-  <li><%= link_to('Make a payment', new_payment_path(invoice_id: @invoice.id)) %></li>
+  <li><%= link_to('See related payments', project_payments_path(@project, invoice_id: @invoice.id)) %></li>
+  <li><%= link_to('Make a payment', new_project_payment_path(@project, invoice_id: @invoice.id)) %></li>
 </ul>

@@ -1,9 +1,8 @@
 <%= labelled_fields_for :payment, @payment do |f| %>
     <%= error_messages_for 'payment' %>
     <b>Project:</b> <%= @payment.project %> <br/>
-    <b> Issue: </b><%= @payment.issue %> <br/>
+    <b> Issues: </b><%= @payment.invoice.issues_titles %> <br/>
     <b>Invoice number: </b><%= @payment.invoice_id %> <br/>
-    <%= f.hidden_field :issue_id %>
     <%= f.hidden_field :project_id %>
     <%= f.hidden_field :invoice_id %>
     <p><%= f.text_field :cheque_no, :maxlength => 255, :required => true %></p>

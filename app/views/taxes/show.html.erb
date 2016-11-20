@@ -1,8 +1,8 @@
 <%= render partial: 'action_menu' %>
+<h2><%= @tax.name %></h2>
 <div class="issue details">
   <table class="subject_header">
     <%= issue_fields_rows do |rows|
-      rows.left l(:field_name), @tax.name
       rows.left l(:field_type), @tax.type
       rows.right l(:field_applicable_from), @tax.applicable_from
       rows.right l(:field_rate), @tax.rate
