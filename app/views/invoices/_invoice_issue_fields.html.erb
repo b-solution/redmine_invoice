@@ -1,9 +1,18 @@
-<div class="nested-fields row">
-  <p>
+<div class="nested-fields splitcontent">
 
-    <%= f.text_field :issue_id, :size => 6, class: 'issues_autocomplete' %>
-  </p>
+  <div class="splitcontentleft">
+    <p>
+      <%= f.text_field :issue_id, :size => 6, class: 'issues_autocomplete' %>
+    </p>
   </div>
+
+  <div class="splitcontentright">
+    <p>
+      <%= f.number_field :ratio_done, :step => 1 %>
+    </p>
+  </div>
+  </p>
+</div>
 
 <%= javascript_tag do %>
     observeAutocompleteClassField('issues_autocomplete', '<%= escape_javascript auto_complete_issues_path(:project_id => @project, :scope => (@project ? nil : 'all'))%>', {

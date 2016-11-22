@@ -15,13 +15,13 @@ Redmine::Plugin.register :redmine_invoice do
 
   end
 
-  menu :top_menu, :clients,
+  menu :admin_menu, :clients,
        {:controller => 'clients', :action => 'index'},
        :caption => :label_client_plural, :if => Proc.new {
         User.current.admin?
       }
 
-  menu :top_menu, :taxes,
+  menu :admin_menu, :taxes,
        {:controller => 'taxes', :action => 'index'},
        :caption => :label_tax_plural, :if => Proc.new {
         User.current.admin?

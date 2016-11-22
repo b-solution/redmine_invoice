@@ -32,6 +32,7 @@ class PaymentsController < ApplicationController
   def create
     @payment = PaymentReceipt.new
     @payment.safe_attributes = payment_params
+    @payment.deductible_taxes = DeductibleTax.active.sum(:rate)
     if @payment.save
       respond_to do |format|
         format.html { redirect_to project_payment_path(@project, @payment), notice: 'Payment was successfully created.' }

@@ -61,18 +61,24 @@ class InvoicesController < ApplicationController
     @invoice.safe_attributes = invoice_params
     reimb_tax = ReimbursementTax.active
     total_r_tax = reimb_tax.sum(:rate)
-    deductible_tax = DeductibleTax.active
-    total_deductible_tax = deductible_tax.sum(:rate)
+    # deductible_tax = DeductibleTax.active.sum(:rate)
 
     issues_invoice_params = params[:invoice][:invoice_issues_attributes]
     valid_issues = []
     invalid_issues = []
+    invoice_issues = []
+
     issues_invoice_params.each do |k, hash|
-      i = Issue.where(id: hash[:issue_id]).first if hash[:issue_id].present?
-      if i and i.contract_amount.to_f > 0
-        valid_issues << i
-      elsif i
-        invalid_issues << i
+      issue = Issue.where(id: hash[:issue_id]).first if hash[:issue_id].present?
+      if issue and issue.contract_amount.to_f > 0
+        valid_issues << issue
+
+        invoice_issue = InvoiceIssue.new(issue_id: issue.id)
+        invoice_issue.set_invoice_params(hash)
+        invoice_issues<< invoice_issue
+
+      elsif issue
+        invalid_issues << issue
       end
     end
 
@@ -80,50 +86,29 @@ class InvoicesController < ApplicationController
       flash.now[:error] =  "These Ids does not have contract amount [#{invalid_issues.map(&:id)}]"
       render(:template => 'invoices/new', :layout => !request.xhr?) && return
     end
-    c = InvoiceIssue.where(issue_id: valid_issues.map(&:id)).
-        where('ratio_done > ?', @invoice.issue_ratio_done.to_i ).
-        pluck(:issue_id)
-    if c.present?
-      flash.now[:error] = "These Ids ([#{c.join(', ')}]= does have invoice with rate > than #{@invoice.issue_ratio_done.to_i}"
-      respond_to do |format|
-        format.html {
-          render(:template => 'invoices/new', :layout => !request.xhr?) && return
-        }
-      end
-    end
 
-    total_tax = total_r_tax - total_deductible_tax
+
+    total_tax = total_r_tax
 
     #
     # We do have these params
     # @invoice.project_id
     # @invoice.client_id
-    # @invoice.issue_ratio_done
     # #
-
-    invoice_issues = []
-    #save Invoice issue
-    valid_issues.each do |issue|
-      invoice_issue = InvoiceIssue.new(issue_id: issue.id)
-      invoice_issue.set_invoice_params(@invoice)
-      invoice_issues<< invoice_issue
-    end
-
-    @invoice.original_amount = valid_issues.map(&:contract_amount).sum * (@invoice.issue_ratio_done.to_f / 100)
     @invoice.issue_contract_amount = invoice_issues.sum(&:rate)
 
-    @invoice.old_amount = @invoice.original_amount - @invoice.issue_contract_amount
+    @invoice.old_amount = invoice_issues.map{|i| i.old_rate}.sum
 
+    @invoice.original_amount = @invoice.issue_contract_amount + @invoice.old_amount
+
+
+    # Applying Taxes
     @invoice.tax_amount = @invoice.issue_contract_amount * (total_tax.to_f/100)
 
     @invoice.invoice_amount = @invoice.issue_contract_amount + @invoice.tax_amount
 
 
     if @invoice.save
-      deductible_tax.each do | tax|
-        InvoiceTax.create(invoice_id: @invoice.id, tax_id: tax.id, rate: -tax.rate)
-      end
-
       reimb_tax.each do | tax|
         InvoiceTax.create(invoice_id: @invoice.id, tax_id: tax.id, rate: tax.rate)
       end

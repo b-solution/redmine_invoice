@@ -11,21 +11,24 @@ class InvoiceIssue < ActiveRecord::Base
                   'issue_contract_amount',
                   'ratio_done'
 
-  def self.rate_for_issues(issue_id)
-    where(issue_id: issue_id).sum(:rate)
+  def self.old_rate_for_issues(issue_id, id=nil)
+    scope = where(issue_id: issue_id)
+    scope = where.not(id: id) if id
+    scope.sum(:rate)
   end
 
   def rate_for_issue
     issue_amount = issue.contract_amount.to_f
     self.issue_contract_amount = issue_amount
-    r = (issue_amount * self.ratio_done) / 100
-    older_rate= InvoiceIssue.rate_for_issues(self.issue_id)
-    r.to_f - older_rate.to_f
+    (issue_amount * self.ratio_done) / 100
   end
 
-  def set_invoice_params(invoice)
-    self.invoice_id = invoice.id
-    self.ratio_done = invoice.issue_ratio_done
+  def old_rate
+    InvoiceIssue.old_rate_for_issues(self.issue_id, self.id)
+  end
+
+  def set_invoice_params(hash)
+    self.ratio_done = hash[:ratio_done]
     self.rate = rate_for_issue
   end
 end

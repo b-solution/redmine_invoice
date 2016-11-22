@@ -3,9 +3,7 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>Issue</th>
       <th>client</th>
-      <th>Done ratio</th>
       <th>amount without taxes</th>
       <th>Taxes</th>
       <th>Amount With taxes</th>
@@ -18,7 +16,6 @@
         <tr>
           <td><%= invoice.id %></td>
           <td><%= invoice.client.name %></td>
-          <td><%= invoice.issue_ratio_done %></td>
           <td><%= invoice.issue_contract_amount %></td>
           <td><%= invoice.tax_amount %> % </td>
           <td><%= invoice.invoice_amount %></td>

@@ -7,6 +7,7 @@ class Invoice < ActiveRecord::Base
 
   has_many :invoice_taxes, dependent: :destroy
   has_many :invoice_issues, dependent: :destroy
+  has_many :payment_receipts, dependent: :destroy
   accepts_nested_attributes_for :invoice_issues, reject_if: :all_blank, allow_destroy: true
 
 
@@ -17,12 +18,11 @@ class Invoice < ActiveRecord::Base
                   'client_id',
                   'issue_contract_amount',
                   'tax_amount',
-                  'invoice_amount',
-                  'issue_ratio_done'
+                  'invoice_amount'
 
   validates_presence_of :project_id, :client_id,
                         :issue_contract_amount, :tax_amount,
-                        :invoice_amount, :issue_ratio_done
+                        :invoice_amount
 
   def editable?
     User.current.allowed_to_globally?(:manage_invoices)
@@ -33,7 +33,7 @@ class Invoice < ActiveRecord::Base
   end
 
   def deletable?
-    User.current.allowed_to_globally?(:manage_invoices)
+    User.current.allowed_to_globally?(:manage_invoices) and payment_receipts.empty?
   end
 
   def viewable?
@@ -43,6 +43,7 @@ class Invoice < ActiveRecord::Base
   def deducted_tax
     invoice_taxes.where('rate < 0').sum(:rate)
   end
+
  def reimbursed_tax
     invoice_taxes.where('rate > 0').sum(:rate)
   end

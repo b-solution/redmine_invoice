@@ -1,32 +1,32 @@
 <%= labelled_fields_for :invoice, @invoice do |f| %>
-<%= javascript_include_tag :cocoon %>
-<p>
-  <b>Project:</b> <%= @invoice.project %>
-</p>
-<p>
-  <b>Project work order number:</b> <%= @invoice.project.work_order_number %>
-</p>
-<p>
-  <b>Project work order date:</b> <%= @invoice.project.work_order_date %>
-</p>
+    <%= javascript_include_tag :cocoon %>
+    <p>
+      <b>Project:</b> <%= @invoice.project %>
+    </p>
+    <p>
+      <b>Project work order number:</b> <%= @invoice.project.work_order_number %>
+    </p>
+    <p>
+      <b>Project work order date:</b> <%= @invoice.project.work_order_date %>
+    </p>
 
 
 
 
-<p>
-  <b>Client:</b> <%= @client %>
-</p>
-<%= f.fields_for :invoice_issues do |mail| %>
-    <%= render 'invoice_issue_fields', :f => mail %>
-<% end %>
-<div id="emails" class="col-xs-11 margin-top-10" style="padding-right: 2px;">
-  <p>
+    <p>
+      <b>Client:</b> <%= @client %>
+    </p>
+    <%= f.fields_for :invoice_issues do |mail| %>
+        <%= render 'invoice_issue_fields', :f => mail %>
+    <% end %>
+    <div id="emails" class="col-xs-11 margin-top-10" style="padding-right: 2px;">
+      <p>
+        <%= link_to_add_association 'add new issue', f, :invoice_issues%>
+      </p>
+    </div>
 
-    <%= link_to_add_association 'add new issue', f, :invoice_issues%>
-  </p>
-</div>
-<%= f.hidden_field :project_id %>
-<%= f.hidden_field :client_id %>
+    <%= f.hidden_field :project_id %>
+    <%= f.hidden_field :client_id %>
 
     <% if @invoice.safe_attribute? 'issue_ratio_done' %>
         <p><%= f.number_field :issue_ratio_done, step: 1 %>%</p>

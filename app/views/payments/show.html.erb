@@ -7,7 +7,7 @@
       rows.left l(:field_invoice), @payment.invoice.id
       rows.left l(:field_invoice_amount), @payment.invoice.invoice_amount
       rows.left l(:field_tax_reimbursed_by_client), "#{@payment.invoice.reimbursed_tax}%"
-      rows.left l(:field_tax_deducted_by_client), "#{@payment.invoice.deducted_tax}%"
+      rows.left l(:field_tax_deducted_by_client), "#{@payment.deductible_taxes}%"
       rows.left l(:field_cheque_amount), @payment.cheque_amount
 
     end %>

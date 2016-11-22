@@ -25,6 +25,7 @@ en:
   field_date_on_cheque: Date on chaque
   field_cheque_amount: Cheque amount
   field_invoice: Invoice id
+  field_ratio_done: Quantity
   field_invoice_amount: Invoice amount
   field_tax_reimbursed_by_client: Tax reimbursed by client
   field_tax_deducted_by_client: Tax deducted by client
