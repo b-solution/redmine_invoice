@@ -24,7 +24,15 @@ class InvoiceIssue < ActiveRecord::Base
   end
 
   def old_rate
-    InvoiceIssue.old_rate_for_issues(self.issue_id, self.id)
+    return @old_rate if @old_rate
+    @old_rate = InvoiceIssue.old_rate_for_issues(self.issue_id, self.id)
+    @old_rate
+  end
+
+  def old_qty
+    return  @old_qty if  @old_qty
+    @old_qty = InvoiceIssue.where(issue_id: issue_id).where.not(id: id).sum(:ratio_done)
+    @old_qty
   end
 
   def set_invoice_params(hash)
