@@ -17,7 +17,7 @@
           <td><%= invoice.id %></td>
           <td><%= invoice.client.name %></td>
           <td><%= invoice.issue_contract_amount %></td>
-          <td><%= invoice.tax_amount %> % </td>
+          <td><%= invoice.tax_amount %>  </td>
           <td><%= invoice.invoice_amount %></td>
 
           <td><%= link_to('show', project_invoice_path(@project, invoice)) if invoice.viewable? %></td>
