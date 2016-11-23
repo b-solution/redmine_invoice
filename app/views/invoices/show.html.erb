@@ -98,7 +98,7 @@
         <td>
           <%= tax.tax.name %> (<%= tax.rate %> % )
         </td>
-        <td> </td>
+        <td> <%=(@invoice.issue_contract_amount * (tax.rate.to_f/100) ) %></td>
         <td>    </td>
       </tr>
   <% end %>
