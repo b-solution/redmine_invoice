@@ -48,107 +48,17 @@
 
   </tbody>
 </table>
+<div style="float: right;cursor: pointer;">
+  <span id="s1"> See part 2 </span>
+  <span id="s2" hidden> See part 1 </span>
+</div>
+<div id="t1" hidden>
+  <%= render partial: 'part_2' %>
+</div>
+<div id="t2">
+  <%= render partial: 'part_1' %>
+</div>
 
-<table class="list table">
-  <thead>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <th>Issues</th>
-    <th>Amount<br/> as per work order</th>
-    <th>This Bill Qty</th>
-    <th>Cumulative qty <br/>till Last Bill</th>
-    <th>Cumulative qty <br/>upto this</th>
-    <th>Amount of this bill</th>
-    <th>Cumulative Amount <br/>till last bill</th>
-    <th>Cumulative amount <br/>upto this bill</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @invoice.invoice_issues.each do |invoice_issue| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td> <%= "#{invoice_issue.issue_id} #{invoice_issue.issue.subject}" %></td>
-        <td> <%= invoice_issue.issue.contract_amount %> </td>
-        <td> <%= invoice_issue.ratio_done %> %  </td>
-        <td> <%= invoice_issue.old_qty %>  % </td>
-        <td> <%= invoice_issue.old_qty + invoice_issue.ratio_done %> % </td>
-        <td>   <%= invoice_issue.rate %>  </td>
-        <td>   <%= invoice_issue.old_rate %>  </td>
-        <td>   <%= invoice_issue.old_rate +  invoice_issue.rate %>  </td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
-<table class="list table">
-  <thead>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <th>Particulars</th>
-    <th>Amount [Rs]</th>
-    <th>Amount [Rs]</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>
-      Cumulative Value upto this invoice As per annexure attached
-    </td>
-    <td> <%= @invoice.original_amount %>  </td>
-    <td>    </td>
-  </tr>
-
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>  <b>Less</b>  </td>
-    <td>   </td>
-    <td>    </td>
-  </tr>
-
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>
-      Cumulative Value upto previous Invoice ( as per annexure attached)
-    </td>
-    <td> <%= @invoice.old_amount %>  </td>
-    <td>    </td>
-
-  </tr>
-
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>
-      This Invoice amount
-    </td>
-    <td>   </td>
-    <td>  <%= @invoice.issue_contract_amount %>  </td>
-
-  </tr>
-
-  <% total_tax = 0 %>
-  <% @invoice.invoice_taxes.each do |tax| %>
-      <% total_tax += tax.rate %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td>
-          <%= tax.tax.name %> (<%= tax.rate %> % )
-        </td>
-        <td> <%=(@invoice.issue_contract_amount * (tax.rate.to_f/100) ) %></td>
-        <td>    </td>
-      </tr>
-  <% end %>
-
-  <% amount_tax = (@invoice.issue_contract_amount * (total_tax.to_f/100) ) %>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td> TOTAL TAXES </td>
-    <td> </td>
-    <td>  <%= amount_tax %>  </td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>"></tr>
-  <tr class="<%= cycle('odd', 'even') %>"></tr>
-
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>  </td>
-    <td> </td>
-    <td>  <%= @invoice.issue_contract_amount  + amount_tax %> </td>
-  </tr>
-
-
-
-  </tbody>
-</table>
 
 Authorized signature
 <br/>
@@ -163,3 +73,20 @@ Authorized signature
 <%= content_for :sidebar do %>
  <%= render partial: 'sidebar' %>
 <% end %>
+<script>
+  $(function(){
+    $('#s1').on('click', function(){
+      $('#t1').show(500)
+      $('#s1').hide(500)
+      $('#s2').show(500)
+      $('#t2').hide(500)
+    })
+
+    $('#s2').on('click', function(){
+      $('#t1').hide(500)
+      $('#s1').show(500)
+      $('#s2').hide(500)
+      $('#t2').show(500)
+    })
+  })
+</script>

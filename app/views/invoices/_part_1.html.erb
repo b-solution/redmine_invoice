@@ -1,0 +1,72 @@
+<table class="list table">
+  <thead>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <th>Particulars</th>
+    <th>Amount [Rs]</th>
+    <th>Amount [Rs]</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>
+      Cumulative Value upto this invoice As per annexure attached
+    </td>
+    <td> <%= @invoice.original_amount %>  </td>
+    <td>    </td>
+  </tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  <b>Less</b>  </td>
+    <td>   </td>
+    <td>    </td>
+  </tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>
+      Cumulative Value upto previous Invoice ( as per annexure attached)
+    </td>
+    <td> <%= @invoice.old_amount %>  </td>
+    <td>    </td>
+
+  </tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>
+      This Invoice amount
+    </td>
+    <td>   </td>
+    <td>  <%= @invoice.issue_contract_amount %>  </td>
+
+  </tr>
+
+  <% total_tax = 0 %>
+  <% @invoice.invoice_taxes.each do |tax| %>
+      <% total_tax += tax.rate %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td>
+          <%= tax.tax.name %> (<%= tax.rate %> % )
+        </td>
+        <td> <%=(@invoice.issue_contract_amount * (tax.rate.to_f/100) ) %></td>
+        <td>    </td>
+      </tr>
+  <% end %>
+
+  <% amount_tax = (@invoice.issue_contract_amount * (total_tax.to_f/100) ) %>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td> TOTAL TAXES </td>
+    <td> </td>
+    <td>  <%= amount_tax %>  </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>"></tr>
+  <tr class="<%= cycle('odd', 'even') %>"></tr>
+
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  </td>
+    <td> </td>
+    <td>  <%= @invoice.issue_contract_amount  + amount_tax %> </td>
+  </tr>
+
+
+
+  </tbody>
+</table>

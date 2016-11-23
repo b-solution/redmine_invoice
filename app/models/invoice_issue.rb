@@ -11,9 +11,9 @@ class InvoiceIssue < ActiveRecord::Base
                   'issue_contract_amount',
                   'ratio_done'
 
-  def self.old_rate_for_issues(issue_id, id=nil)
-    scope = where(issue_id: issue_id)
-    scope = where.not(id: id) if id
+  def self.old_rate_for_issues(invoice_issue)
+    scope = where(issue_id: invoice_issue.issue_id)
+    scope = scope.where.not(id: invoice_issue.id) if invoice_issue.id
     scope.sum(:rate)
   end
 
@@ -25,13 +25,13 @@ class InvoiceIssue < ActiveRecord::Base
 
   def old_rate
     return @old_rate if @old_rate
-    @old_rate = InvoiceIssue.old_rate_for_issues(self.issue_id, self.id)
+    @old_rate = InvoiceIssue.old_rate_for_issues(self)
     @old_rate
   end
 
   def old_qty
     return  @old_qty if  @old_qty
-    @old_qty = InvoiceIssue.where(issue_id: issue_id).where.not(id: id).sum(:ratio_done)
+    @old_qty = InvoiceIssue.where(issue_id: self.issue_id).where.not(id: id).sum(:ratio_done)
     @old_qty
   end
 

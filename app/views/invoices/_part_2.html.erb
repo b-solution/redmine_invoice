@@ -1,0 +1,29 @@
+
+<table class="list table">
+  <thead>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <th>Issues</th>
+    <th>Amount<br/> as per work order</th>
+    <th>This Bill Qty</th>
+    <th>Cumulative qty <br/>till Last Bill</th>
+    <th>Cumulative qty <br/>upto this</th>
+    <th>Amount of this bill</th>
+    <th>Cumulative Amount <br/>till last bill</th>
+    <th>Cumulative amount <br/>upto this bill</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @invoice.invoice_issues.each do |invoice_issue| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td> <%= "#{invoice_issue.issue_id} #{invoice_issue.issue.subject}" %></td>
+        <td> <%= invoice_issue.issue.contract_amount %> </td>
+        <td> <%= invoice_issue.ratio_done %> %  </td>
+        <td> <%= invoice_issue.old_qty %>  % </td>
+        <td> <%= invoice_issue.old_qty + invoice_issue.ratio_done %> % </td>
+        <td>   <%= invoice_issue.rate %>  </td>
+        <td>   <%= invoice_issue.old_rate %>  </td>
+        <td>   <%= invoice_issue.old_rate +  invoice_issue.rate %>  </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
