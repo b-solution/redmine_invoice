@@ -49,13 +49,11 @@
   </tbody>
 </table>
 <div style="float: right;cursor: pointer;">
-  <%= link_to 'see part 2', part_2_project_invoice_path(@project,@invoice) %>
+  <%= link_to 'see part 1', project_invoice_path(@project,@invoice) %>
 </div>
-
-<div id="t2">
-  <%= render partial: 'part_1' %>
+<div id="t1">
+  <%= render partial: 'part_2' %>
 </div>
-
 
 Authorized signature
 <br/>
@@ -65,8 +63,6 @@ Authorized signature
 <br/>
 <%= setting['footer_info'].html_safe %>
 
-
-
 <%= content_for :sidebar do %>
- <%= render partial: 'sidebar' %>
+    <%= render partial: 'sidebar' %>
 <% end %>

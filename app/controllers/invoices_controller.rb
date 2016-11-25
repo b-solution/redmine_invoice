@@ -1,6 +1,6 @@
 class InvoicesController < ApplicationController
   unloadable
-  before_action :set_invoice, only: [:edit, :update, :destroy, :show]
+  before_action :set_invoice, only: [:edit, :update, :destroy, :show, :part_2]
   before_action :authorize_global
   before_action :find_project_by_project_id
 
@@ -13,7 +13,12 @@ class InvoicesController < ApplicationController
   end
 
   def show
-    @issue = @invoice.issue
+    @project = @invoice.project
+    @client = @invoice.client
+    @taxes = @invoice.invoice_taxes
+  end
+
+  def part_2
     @project = @invoice.project
     @client = @invoice.client
     @taxes = @invoice.invoice_taxes

@@ -13,17 +13,32 @@
   </tr>
   </thead>
   <tbody>
-  <% @invoice.invoice_issues.each do |invoice_issue| %>
-      <tr class="<%= cycle('odd', 'even') %>">
-        <td> <%= "#{invoice_issue.issue_id} #{invoice_issue.issue.subject}" %></td>
-        <td> <%= invoice_issue.issue.contract_amount %> </td>
-        <td> <%= invoice_issue.ratio_done %> %  </td>
-        <td> <%= invoice_issue.old_qty %>  % </td>
-        <td> <%= invoice_issue.old_qty + invoice_issue.ratio_done %> % </td>
-        <td>   <%= invoice_issue.rate %>  </td>
-        <td>   <%= invoice_issue.old_rate %>  </td>
-        <td>   <%= invoice_issue.old_rate +  invoice_issue.rate %>  </td>
-      </tr>
+  <% @project.issues.where.not(contract_amount: nil).each do |issue| %>
+      <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).first %>
+      <% if invoice_issue %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td> <%= "#{invoice_issue.issue_id} #{invoice_issue.issue.subject}" %></td>
+            <td> <%= invoice_issue.issue.contract_amount %> </td>
+            <td> <%= invoice_issue.ratio_done %> %  </td>
+            <td> <%= invoice_issue.old_qty %>  % </td>
+            <td> <%= invoice_issue.old_qty + invoice_issue.ratio_done %> % </td>
+            <td>   <%= invoice_issue.rate %>  </td>
+            <td>   <%= invoice_issue.old_rate %>  </td>
+            <td>   <%= invoice_issue.old_rate +  invoice_issue.rate %>  </td>
+          </tr>
+      <% else %>
+          <% invoice_issues = InvoiceIssue.where(issue_id: issue.id) %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td> <%= "#{issue.id} #{issue.subject}" %></td>
+            <td> <%= issue.contract_amount %> </td>
+            <td> 0  </td>
+            <td> <%= invoice_issues.sum(:ratio_done) %> % </td>
+            <td> <%= invoice_issues.sum(:ratio_done) %> % </td>
+            <td>   0  </td>
+            <td>   <%= invoice_issues.sum(:rate) %>   </td>
+            <td>  <%= invoice_issues.sum(:rate) %>  </td>
+          </tr>
+      <% end %>
   <% end %>
   </tbody>
 </table>

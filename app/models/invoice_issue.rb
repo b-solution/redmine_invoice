@@ -17,6 +17,12 @@ class InvoiceIssue < ActiveRecord::Base
     scope.sum(:rate)
   end
 
+  def self.old_rate_for_project(invoice_issue)
+    scope = where(project_id: invoice_issue.project_id)
+    scope = scope.where.not(id: invoice_issue.id) if invoice_issue.id
+    scope.sum(:rate)
+  end
+
   def rate_for_issue
     issue_amount = issue.contract_amount.to_f
     self.issue_contract_amount = issue_amount
@@ -37,6 +43,7 @@ class InvoiceIssue < ActiveRecord::Base
 
   def set_invoice_params(hash)
     self.ratio_done = hash[:ratio_done]
+    self.project_id = issue.project_id
     self.rate = rate_for_issue
   end
 end
