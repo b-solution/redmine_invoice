@@ -12,7 +12,8 @@ class PaymentReceipt < ActiveRecord::Base
                   'bank_name',
                   'date_on_cheque',
                   'cheque_amount',
-                  'deductible_taxes'
+                  'deductible_taxes',
+                  'exp_cheque_amount'
 
   validates_presence_of :project_id, :invoice_id,
                         :cheque_no, :date_on_cheque,

@@ -3,9 +3,18 @@
     <b>Project:</b> <%= @payment.project %> <br/>
     <b> Issues: </b><%= @payment.invoice.issues_titles %> <br/>
     <b>Invoice number: </b><%= @payment.invoice_id %> <br/>
-    <b>Invoice Base amount: </b><%= @payment.invoice.issue_contract_amount %> <br/>
+    <% amt = @payment.invoice.issue_contract_amount %>
+    <% d_t =  DeductibleTax.active.sum(:rate) %>
+    <% d_amt =  (d_t * amt).to_f / 100 %>
+    <b>Invoice Base amount: </b><%= amt %> <br/>
     <b>Invoice amount: </b><%= @payment.invoice.invoice_amount %> <br/>
-    <b>Deductible taxes: </b><%= DeductibleTax.active.sum(:rate) %> <br/>
+    <b>Deductible taxes: </b><%= d_t %> <br/>
+
+    <b>Expecting amount Cheque: </b><%= @payment.invoice.invoice_amount - d_amt.round(2) %> <br/>
+    <% f.object.deductible_taxes = d_amt.round(2) %>
+    <% f.object.exp_cheque_amount = @payment.invoice.invoice_amount - d_amt.round(2) %>
+    <%= f.hidden_field :exp_cheque_amount %>
+    <%= f.hidden_field :deductible_taxes %>
     <%= f.hidden_field :project_id %>
     <%= f.hidden_field :invoice_id %>
     <p><%= f.text_field :cheque_no, :maxlength => 255, :required => true %></p>

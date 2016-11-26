@@ -13,6 +13,7 @@
   </tr>
   </thead>
   <tbody>
+
   <% @project.issues.where.not(contract_amount: nil).each do |issue| %>
       <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).first %>
       <% if invoice_issue %>
@@ -40,5 +41,16 @@
           </tr>
       <% end %>
   <% end %>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td> </td>
+    <td> </td>
+    <td>   </td>
+    <td> </td>
+    <td> </td>
+    <td> </td>
+    <td> <%= InvoiceIssue.where(project_id: @project.id)
+             .where(invoice_id: @invoice.id).sum(:rate) %> </td>
+    <td> <%= InvoiceIssue.where(project_id: @project.id).sum(:rate) %></td>
+  </tr>
   </tbody>
 </table>

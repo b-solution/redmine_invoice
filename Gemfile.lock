@@ -1,0 +1,12 @@
+GEM
+  specs:
+    cocoon (1.2.9)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cocoon
+
+BUNDLED WITH
+   1.13.6
