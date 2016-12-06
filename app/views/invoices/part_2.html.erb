@@ -1,53 +1,6 @@
-<div>
-  <%= image_tag 'logo.png', plugin: 'redmine_invoice', style: 'width: 100%; height: 150px;' %>
-</div>
-
 <% setting =  Setting.plugin_redmine_invoice %>
-<p>
-  <%= setting['company_name'] %> <br/>
-  <%= setting['address'] %> <br/>
-  <%= setting['email'] %> <br/>
-  <%= setting['phone'] %> <br/>
-</p>
-
-<p>
-  <% year = Date.today.year %>
-  <b> Financial year :</b> <%= Date.today.month > 3 ? "#{year}-#{year+1}" : "#{year-1}-#{year}" %>
-</p>
-<p>
-  <b> Invoice no :</b> <%= "##{@invoice.id}" %>
-</p>
-<p>
-  <b> <%= "#{@invoice.created_at}" %> </b>
-</p>
-
+<%= render partial: 'header', locals: {setting: setting} %>
 <br/>
-
-<table>
-  <tbody>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  To:                         </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client %>              </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.home_address %> </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.email %>        </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.phone %>        </td></tr>
-  </tbody>
-</table>
-<br/>
-<table>
-  <tbody>
-
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td><b>Project </b></td>          <td><%= @invoice.project %></td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td> <b>Contract value</b></td>   <td></td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td> <b><%= l(:field_work_order_number) %></b></td>   <td> <%= @invoice.project.work_order_number %></td>
-  </tr>
-
-  </tbody>
-</table>
 <div style="float: right;cursor: pointer;">
   <%= link_to 'see part 1', project_invoice_path(@project,@invoice) %>
 </div>
@@ -61,8 +14,9 @@ Authorized signature
 <br/>
 <br/>
 <br/>
-<%= setting['footer_info'].html_safe %>
-
+<p style="border: 1px solid">
+  <%= setting['footer_info'].html_safe %>
+</p>
 <%= content_for :sidebar do %>
     <%= render partial: 'sidebar' %>
 <% end %>

@@ -102,7 +102,7 @@ class InvoicesController < ApplicationController
     # #
     @invoice.issue_contract_amount = invoice_issues.sum(&:rate)
 
-    @invoice.old_amount = invoice_issues.map{|i| i.old_rate}.sum
+    @invoice.old_amount = Invoice.where(project_id: @project.id).sum(:original_amount)     #invoice_issues.map{|i| i.old_rate}.sum
 
     @invoice.original_amount = @invoice.issue_contract_amount + @invoice.old_amount
 

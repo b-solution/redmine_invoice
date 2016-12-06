@@ -64,11 +64,12 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
+    invoice = @payment.invoice
     @payment.destroy
     respond_to do |format|
       format.html {
         flash[:notice] = 'Payment was successfully destroyed.'
-        redirect_to project_payments_path(@project)
+        redirect_to project_payments_path(@project, invoice_id: invoice.id)
       }
       format.json { head :no_content }
     end

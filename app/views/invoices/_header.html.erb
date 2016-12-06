@@ -1,0 +1,36 @@
+<table class="list" style="border: 1px solid">
+  <tbody>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td colspan="2">   <% year = Date.today.year %>
+      Financial year: <%= Date.today.month > 3 ? "#{year}-#{year+1}" : "#{year-1}-#{year}" %>    </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  <%= setting['company_name'] %>     </td><td>  Project: <%= @invoice.project %>   </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  <%= setting['address'] %>     </td><td> Invoice no: <%= "##{@invoice.id}" %>     </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>   Ph:<%= setting['email'] %>    </td><td>    Date: <%= "#{@invoice.created_at.strftime('%d/%m/%Y')}" %>     </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td>  Email:<%= setting['phone'] %>     </td><td>  Work order no : <%= @invoice.project.work_order_number %>    </td>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td> </td><td> W.O Amount :<%= @invoice.project.issues.sum(:contract_amount) %>    </td>
+  </tr>
+  </tbody>
+</table>
+
+
+<br/>
+
+<table class="list" style="border: 1px solid">
+  <tbody>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  Client Billing Address:     </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client %>              </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.home_address %> </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.email %>        </td></tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.phone %>        </td></tr>
+  </tbody>
+</table>

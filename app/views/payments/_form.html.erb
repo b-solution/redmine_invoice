@@ -1,18 +1,30 @@
+<%
+   invoice_base_amount =  @payment.invoice.issue_contract_amount
+   invoice_amount = @payment.invoice.invoice_amount
+   d_tax = DeductibleTax.active.sum(:rate)
+   d_tax_applied = (d_tax * invoice_base_amount).to_f / 100
+   old_payments = PaymentReceipt.where(invoice_id: @payment.invoice_id)
+   what_i_paid = old_payments.map{|p| p.cheque_amount.to_f }.sum
+
+   what_i_should_pay_from_zero = invoice_amount - d_tax_applied.round(2)
+   what_i_should_pay_now = what_i_should_pay_from_zero - what_i_paid
+%>
+
+
 <%= labelled_fields_for :payment, @payment do |f| %>
     <%= error_messages_for 'payment' %>
     <b>Project:</b> <%= @payment.project %> <br/>
     <b> Issues: </b><%= @payment.invoice.issues_titles %> <br/>
     <b>Invoice number: </b><%= @payment.invoice_id %> <br/>
-    <% amt = @payment.invoice.issue_contract_amount %>
-    <% d_t =  DeductibleTax.active.sum(:rate) %>
-    <% d_amt =  (d_t * amt).to_f / 100 %>
-    <b>Invoice Base amount: </b><%= amt %> <br/>
-    <b>Invoice amount: </b><%= @payment.invoice.invoice_amount %> <br/>
-    <b>Deductible taxes: </b><%= d_t %> <br/>
 
-    <b>Expecting amount Cheque: </b><%= @payment.invoice.invoice_amount - d_amt.round(2) %> <br/>
-    <% f.object.deductible_taxes = d_amt.round(2) %>
-    <% f.object.exp_cheque_amount = @payment.invoice.invoice_amount - d_amt.round(2) %>
+    <b>Invoice Base amount: </b><%= invoice_base_amount %> <br/>
+    <b>Invoice amount: </b><%= invoice_amount %> <br/>
+    <b>Deductible taxes: </b><%= "#{d_tax_applied} (#{d_tax}%)" %> <br/>
+    <b>Old payments: </b><%= "#{what_i_paid}" %> <br/>
+
+    <b>Expecting amount Cheque: </b><%= what_i_should_pay_now %> <br/>
+    <% f.object.deductible_taxes = d_tax.round(2) %>
+    <% f.object.exp_cheque_amount = what_i_should_pay_now %>
     <%= f.hidden_field :exp_cheque_amount %>
     <%= f.hidden_field :deductible_taxes %>
     <%= f.hidden_field :project_id %>
@@ -20,6 +32,8 @@
     <p><%= f.text_field :cheque_no, :maxlength => 255, :required => true %></p>
     <p><%= f.text_field :bank_name, :maxlength => 255, :required => true %></p>
     <p><%= f.text_field :date_on_cheque, :required => true %><%= calendar_for('payment_date_on_cheque') %></p>
-    <p><%= f.text_field :cheque_amount, :maxlength => 255, :required => true %></p>
+    <p><%= f.number_field :cheque_amount, :maxlength => 255, :required => true %></p>
 
 <% end %>
+
+

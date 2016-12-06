@@ -9,7 +9,7 @@
   <tbody>
   <tr class="<%= cycle('odd', 'even') %>">
     <td>
-      Cumulative Value upto this invoice As per annexure attached
+      Cumulative Value upto this invoice As per annexure attached (Ref:  <%= link_to 'part 2', part_2_project_invoice_path(@project,@invoice) %>)
     </td>
     <td> <%= @invoice.original_amount %>  </td>
     <td>    </td>
@@ -23,7 +23,7 @@
 
   <tr class="<%= cycle('odd', 'even') %>">
     <td>
-      Cumulative Value upto previous Invoice ( as per annexure attached)
+      Cumulative Value upto previous Invoice ( as per annexure attached) (Ref:  <%= link_to 'part 2', part_2_project_invoice_path(@project,@invoice) %>)
     </td>
     <td> <%= @invoice.old_amount.round(2) %>  </td>
     <td>    </td>
@@ -32,7 +32,7 @@
 
   <tr class="<%= cycle('odd', 'even') %>">
     <td>
-      This Invoice amount
+      Amount of Current Bill
     </td>
     <td>   </td>
     <td>  <%= @invoice.issue_contract_amount.round(2) %>  </td>
