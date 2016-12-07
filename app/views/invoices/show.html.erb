@@ -5,6 +5,17 @@
 <% setting =  Setting.plugin_redmine_invoice %>
 <%= render partial: 'header', locals: {setting: setting} %>
 <br/>
+<br/>
+Client Billing Address:
+<div class="splitcontent" style="border: 1px solid">
+  <div class="splitcontentleft"  style="border-right: 1px solid" >
+    <%= @client %> <br/>
+    <%= @client.home_address %><br/>
+    <%= @client.email %><br/>
+    <%= @client.phone %><br/>
+  </div>
+
+</div>
 
 <div id="t2">
   <%= render partial: 'part_1' %>
@@ -25,5 +36,5 @@ Authorized signature
 
 
 <%= content_for :sidebar do %>
- <%= render partial: 'sidebar' %>
+    <%= render partial: 'sidebar' %>
 <% end %>

@@ -1,36 +1,18 @@
-<table class="list" style="border: 1px solid">
-  <tbody>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td colspan="2">   <% year = Date.today.year %>
-      Financial year: <%= Date.today.month > 3 ? "#{year}-#{year+1}" : "#{year-1}-#{year}" %>    </td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>  <%= setting['company_name'] %>     </td><td>  Project: <%= @invoice.project %>   </td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>  <%= setting['address'] %>     </td><td> Invoice no: <%= "##{@invoice.id}" %>     </td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>   Ph:<%= setting['email'] %>    </td><td>    Date: <%= "#{@invoice.created_at.strftime('%d/%m/%Y')}" %>     </td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td>  Email:<%= setting['phone'] %>     </td><td>  Work order no : <%= @invoice.project.work_order_number %>    </td>
-  </tr>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td> </td><td> W.O Amount :<%= @invoice.project.issues.sum(:contract_amount) %>    </td>
-  </tr>
-  </tbody>
-</table>
-
-
-<br/>
-
-<table class="list" style="border: 1px solid">
-  <tbody>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  Client Billing Address:     </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client %>              </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.home_address %> </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.email %>        </td></tr>
-  <tr class="<%= cycle('odd', 'even') %>"><td>  <%= @client.phone %>        </td></tr>
-  </tbody>
-</table>
+<div class="splitcontent" style="border: 1px solid">
+  <div class="splitcontentleft" >
+    <%= setting['company_name'] %> <br/>
+    <%= setting['address'] %> <br/>
+    Ph:<%= setting['email'] %> <br/>
+    Email:<%= setting['phone'] %> <br/>
+  </div>
+  <div class="splitcontentleft" style="border-left: 1px solid">
+    Project: <%= @invoice.project %> <br/>
+    Invoice no: <%= "##{@invoice.id}" %> <br/>
+    Date: <%= "#{format_date @invoice.created_at}" %> <br/>
+    <% year = Date.today.year %>
+    Financial year: <%= Date.today.month > 3 ? "#{year}-#{year+1}" : "#{year-1}-#{year}" %> <br/>
+    Work order no : <%= @invoice.project.work_order_number %> <br/>
+    Date : <%= format_date @invoice.invoice_issues.map(&:issue).map(&:created_on).sort.first %> <br/>
+    W.O Amount :<%= @invoice.project.issues.sum(:contract_amount) %> <br/>
+  </div>
+</div>
