@@ -1,6 +1,11 @@
-<div>
+<div class="splitcontent" style="border: 1px solid">
   <%= image_tag 'logo.png', plugin: 'redmine_invoice', style: 'width: 100%; height: 150px;' %>
+  <div align="center" >
+    <h3 style="color: blue;">Civil & Structural Engineers <br/>
+  (ISO 9001:2008 certified Company)</h3>
+  </div>
 </div>
+<br/>
 
 <% setting =  Setting.plugin_redmine_invoice %>
 <%= render partial: 'header', locals: {setting: setting} %>
