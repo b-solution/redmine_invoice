@@ -2,14 +2,14 @@
 <table class="list table">
   <thead>
   <tr class="<%= cycle('odd', 'even') %>">
-    <th>Issues</th>
-    <th>Amount<br/> as per work order</th>
-    <th>This Bill Qty</th>
-    <th>Cumulative qty <br/>till Last Bill</th>
-    <th>Cumulative qty <br/>upto this</th>
-    <th>Amount of this bill</th>
-    <th>Cumulative Amount <br/>till last bill</th>
-    <th>Cumulative amount <br/>upto this bill</th>
+    <th>Item no</th>
+    <th>Description</th>
+    <th>Contract amount</th>
+    <th>Cum. %work done <br/> upto Prev Bill</th>
+    <th>Cum. %Work done <br/>in Current<br/> Bill </th>
+    <th>Cum.%work done <br/> up to current<br/> Bill</th>
+    <th>Cum Amt upto <br/> Prev Bill</th>
+    <th>Cum Amt. up <br/>to Current <br/>bill</th>
   </tr>
   </thead>
   <tbody>
@@ -18,24 +18,24 @@
       <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).first %>
       <% if invoice_issue %>
           <tr class="<%= cycle('odd', 'even') %>">
-            <td> <%= "#{invoice_issue.issue_id} #{invoice_issue.issue.subject}" %></td>
+            <td> <%= invoice_issue.issue_id %></td>
+            <td> <%= "#{invoice_issue.issue.subject}" %></td>
             <td> <%= invoice_issue.issue.contract_amount.round(2) %> </td>
-            <td> <%= invoice_issue.ratio_done.round(2) %> %  </td>
             <td> <%= invoice_issue.old_qty.round(2) %>  % </td>
+            <td> <%= invoice_issue.ratio_done.round(2) %> %  </td>
             <td> <%= (invoice_issue.old_qty + invoice_issue.ratio_done).round(2) %> % </td>
-            <td>   <%= invoice_issue.rate.round(2) %>  </td>
             <td>   <%= invoice_issue.old_rate.round(2) %>  </td>
             <td>   <%= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
           </tr>
       <% else %>
           <% invoice_issues = InvoiceIssue.where(issue_id: issue.id) %>
           <tr class="<%= cycle('odd', 'even') %>">
-            <td> <%= "#{issue.id} #{issue.subject}" %></td>
+            <td> <%= issue.id %></td>
+            <td> <%= "#{issue.subject}" %></td>
             <td> <%= issue.contract_amount %> </td>
             <td> 0  </td>
             <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
             <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
-            <td>   0  </td>
             <td>   <%= invoice_issues.sum(:rate).round(2) %>   </td>
             <td>  <%= invoice_issues.sum(:rate).round(2) %>  </td>
           </tr>
