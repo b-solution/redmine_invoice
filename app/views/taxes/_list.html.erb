@@ -17,8 +17,6 @@
           <td><%= tax.rate %></td>
           <td><%= tax.type %></td>
           <td><%= tax.applicable_from %></td>
-
-          <td><%= link_to 'edit', edit_tax_path(tax) %></td>
           <td><%= link_to 'remove', tax_path(tax), method: 'delete' %></td>
         </tr>
     <% end %>
