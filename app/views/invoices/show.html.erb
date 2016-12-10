@@ -36,7 +36,9 @@ Authorized signature
 <br/>
 <br/>
 <p style="border: 1px solid">
-  <%= setting['footer_info'].html_safe %>
+  <% setting['footer_info'].each_line do |line| %>
+  <%= line %> <br/>
+  <% end %>
 </p>
 
 
