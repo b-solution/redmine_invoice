@@ -30,7 +30,7 @@
       <% else %>
           <% invoice_issues = InvoiceIssue.where(issue_id: issue.id) %>
           <tr class="<%= cycle('odd', 'even') %>">
-            <td> <%= issue.id %></td>
+            <td> <%= issue.item_number %></td>
             <td> <%= "#{issue.subject}" %></td>
             <td> <%= issue.contract_amount %> </td>
             <td> 0  </td>

@@ -1,3 +1,6 @@
 <% if issue.safe_attribute? 'contract_amount' %>
     <p><%= form.text_field :contract_amount  %></p>
 <% end %>
+<% if issue.safe_attribute? 'item_number' %>
+    <p><%= form.number_field :item_number  %></p>
+<% end %>

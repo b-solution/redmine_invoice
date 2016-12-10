@@ -7,6 +7,8 @@ module  RedmineInvoice
         safe_attributes 'client_id', 'work_order_date', 'work_order_number'
         belongs_to :client
         has_many :invoices
+
+        validates_format_of :work_order_number, :with => /\A[A-Za-z0-9]+\Z/i
       end
     end
     module InstanceMethods

@@ -4,6 +4,7 @@
   <table class="subject_header">
     <%= issue_fields_rows do |rows|
       rows.left l(:field_home_address), @client.home_address
+      rows.left '', @client.home_address_2
       rows.right l(:field_email), @client.email
       rows.right l(:field_phone), @client.phone
     end %>

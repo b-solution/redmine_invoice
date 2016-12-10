@@ -35,6 +35,7 @@ Redmine::Plugin.register :redmine_invoice do
             :default => {
                 'company_name' => '',
                 'address' => '',
+                'address_2' => '',
                 'phone' => '',
                 'email' => '',
                 'footer_info' => ''

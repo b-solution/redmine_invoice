@@ -16,14 +16,11 @@
     <tbody>
     <% payments.each do |payment| %>
         <tr>
-
           <td><%= link_to payment.invoice.id, project_invoice_path(@project, payment.invoice) %></td>
-
           <td><%= payment.cheque_no %></td>
           <td><%= payment.bank_name %></td>
           <td><%= payment.cheque_amount %></td>
           <td><%= link_to 'show', project_payment_path(@project, payment) %></td>
-          <td><%= link_to '', edit_project_payment_path(@project,payment), class: 'icon icon-edit' %></td>
           <td><%= link_to '', project_payment_path(@project,payment), method: 'delete', class: 'icon icon-del' %></td>
         </tr>
     <% end %>
