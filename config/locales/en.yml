@@ -29,3 +29,4 @@ en:
   field_invoice_amount: Invoice amount
   field_tax_reimbursed_by_client: Tax reimbursed by client
   field_tax_deducted_by_client: Tax deducted by client
+  field_item_number: Item no
