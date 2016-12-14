@@ -76,7 +76,7 @@ class TaxesController < ApplicationController
   end
 
   def tax_params
-    params.require(:tax).permit!
+    params.require(:tax).permit(:name, :type, :tax_applicables_attributes=> [:id, :tax_id, :rate, :applicable_from, :_destroy])
   end
 
   def authorize

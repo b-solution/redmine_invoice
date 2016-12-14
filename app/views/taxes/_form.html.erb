@@ -1,3 +1,4 @@
+<%= javascript_include_tag :cocoon %>
 <%= labelled_fields_for :tax, @tax do |f| %>
     <%= error_messages_for 'tax' %>
     <% if @tax.safe_attribute? 'name' %>
@@ -11,19 +12,17 @@
         <% if @tax.safe_attribute? 'type' %>
             <p><%= f.select :type,options_for_select(Tax.get_classes_name), :required => true %></p>
         <% end %>
-
-        <% if @tax.safe_attribute? 'rate' %>
-            <p><%= f.number_field :rate, step: 0.1, :required => true %></p>
-        <% end %>
-
-        <% if @tax.safe_attribute? 'applicable_from' %>
-            <p>
-              <%= f.date_field :applicable_from, :required => true %>
-            <%= calendar_for('tax_applicable_from') %>
-            </p>
-        <% end %>
       </div>
     </div>
+    <%= f.fields_for :tax_applicables do |tax| %>
+        <%= render 'tax_applicable_fields', :f => tax %>
+    <% end %>
+    <div id="tax" class="col-xs-11 margin-top-10" style="padding-right: 2px;">
+      <p>
+        <%= link_to_add_association 'add new rate', f, :tax_applicables %>
+      </p>
+    </div>
+
 
 
 <% end %>

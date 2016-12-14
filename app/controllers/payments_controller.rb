@@ -32,8 +32,8 @@ class PaymentsController < ApplicationController
   def create
     @payment = PaymentReceipt.new
     @payment.safe_attributes = payment_params
-    last_d_tax = DeductibleTax.active.last
-    d_tax = last_d_tax ? last_d_tax.rate : 0
+    last_d_tax = DeductibleTax.active.map{|t| t.tax_applicable}
+    d_tax = last_d_tax ? last_d_tax.map{|t| t.rate}.sum : 0
     @payment.deductible_taxes = d_tax
     if @payment.save
       respond_to do |format|

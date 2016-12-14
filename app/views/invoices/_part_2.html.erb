@@ -13,9 +13,10 @@
   </tr>
   </thead>
   <tbody>
-
+  <% old_rate_sum = 0 %>
   <% @project.issues.where.not(contract_amount: nil).each do |issue| %>
       <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).first %>
+
       <% if invoice_issue %>
           <tr class="<%= cycle('odd', 'even') %>">
             <td> <%= invoice_issue.issue_id %></td>
@@ -24,6 +25,7 @@
             <td> <%= invoice_issue.old_qty.round(2) %>  % </td>
             <td> <%= invoice_issue.ratio_done.round(2) %> %  </td>
             <td> <%= (invoice_issue.old_qty + invoice_issue.ratio_done).round(2) %> % </td>
+            <% old_rate_sum += invoice_issue.old_rate %>
             <td>   <%= invoice_issue.old_rate.round(2) %>  </td>
             <td>   <%= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
           </tr>
@@ -36,6 +38,7 @@
             <td> 0  </td>
             <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
             <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
+            <%   old_rate_sum += invoice_issues.sum(:rate) %>
             <td>   <%= invoice_issues.sum(:rate).round(2) %>   </td>
             <td>  <%= invoice_issues.sum(:rate).round(2) %>  </td>
           </tr>
@@ -48,8 +51,7 @@
     <td> </td>
     <td> </td>
     <td> </td>
-    <td> <%= InvoiceIssue.where(project_id: @project.id)
-             .where(invoice_id: @invoice.id).sum(:rate) %> </td>
+    <td> <%= old_rate_sum %> </td>
     <td> <%= InvoiceIssue.where(project_id: @project.id).sum(:rate) %></td>
   </tr>
   </tbody>

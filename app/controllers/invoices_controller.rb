@@ -64,8 +64,8 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new
     @invoice.safe_attributes = invoice_params
-    reimb_tax = ReimbursementTax.active
-    total_r_tax = reimb_tax.sum(:rate)
+    reimb_tax = ReimbursementTax.active.map{|t| t.tax_applicable }
+    total_r_tax = reimb_tax.map{|t| t.rate}.sum
     # deductible_tax = DeductibleTax.active.sum(:rate)
 
     issues_invoice_params = params[:invoice][:invoice_issues_attributes]
@@ -115,7 +115,7 @@ class InvoicesController < ApplicationController
 
     if @invoice.save
       reimb_tax.each do | tax|
-        InvoiceTax.create(invoice_id: @invoice.id, tax_id: tax.id, rate: tax.rate)
+        InvoiceTax.create(invoice_id: @invoice.id, tax_id: tax.tax_id, rate: tax.rate)
       end
 
       invoice_issues.each do |v|

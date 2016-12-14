@@ -1,0 +1,21 @@
+<div class="nested-fields splitcontent">
+
+  <div class="splitcontentleft">
+    <p>
+      <%= f.number_field :rate, step: 0.1, :required => true %>
+    </p>
+  </div>
+
+  <div class="splitcontentright">
+    <p>
+      <%= f.date_field :applicable_from, :required => true %>
+      <span>
+         <%= link_to_remove_association "remove rate", f %>
+      </span>
+    </p>
+  </div>
+</div>
+<% include_calendar_headers_tags %>
+<%= javascript_tag do %>
+    $(function() { $('input[id^=tax_tax_applicables_attributes][type="date"]').addClass('date').datepickerFallback(datepickerOptions); });
+<% end %>
