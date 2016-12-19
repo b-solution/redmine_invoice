@@ -28,7 +28,7 @@
             <td> <%= (invoice_issue.old_qty + invoice_issue.ratio_done).round(2) %> % </td>
             <% old_rate_sum += invoice_issue.old_rate %>
             <td>   <%= invoice_issue.old_rate.round(2) %>  </td>
-            <td>   <% rate_sum+= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
+             <% rate_sum+= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>
             <td>   <%= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
           </tr>
       <% else %>
