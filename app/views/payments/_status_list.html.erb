@@ -29,14 +29,15 @@
                       <td> <%= invoice_payment.original_amount %></td>
                       <td> <%= invoice_payment.tax_amount %></td>
                       <td> <%= invoice_payment.invoice_amount %></td>
+                      <td> <%= ((payment.deductible_taxes * invoice_payment.invoice_amount).to_f / 100 ).round(2) %> </td>
+                      <td> <%= payment.exp_cheque_amount %> </td>
                   <% else %>
                       <td> </td>
                       <td> </td>
                       <td> </td>
-                <% end %>
-
-                  <td> <%= payment.deductible_taxes %> </td>
-                  <td> <%= payment.exp_cheque_amount %> </td>
+                      <td> </td>
+                      <td> </td>
+                  <% end %>
                   <td> <%= payment.try( :cheque_amount) || '-' %></td>
                   <td> <%= payment.try( :cheque_no)  || '-'%></td>
                   <td> <%= payment.try( :bank_name) || '-'%></td>
