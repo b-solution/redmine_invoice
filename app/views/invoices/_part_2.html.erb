@@ -36,11 +36,10 @@
             <td> <%= link_to "#{issue.subject}", issue_path(issue) %></td>
             <td> <%= issue.contract_amount %> </td>
             <td> 0  </td>
-            <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
-            <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
-            <%   old_rate_sum += invoice_issues.sum(:rate) %>
-            <td>   <%= invoice_issues.sum(:rate).round(2) %>   </td>
-            <td>  <%= invoice_issues.sum(:rate).round(2) %>  </td>
+            <td> 0 % </td>
+            <td> 0 % </td>
+            <td>   0   </td>
+            <td> 0  </td>
           </tr>
       <% end %>
   <% end %>
