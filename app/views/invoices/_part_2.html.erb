@@ -6,7 +6,7 @@
     <th>Description</th>
     <th>Contract amount</th>
     <th>Cum. %work done <br/> upto Prev Bill</th>
-    <th>Cum. %Work done <br/>in Current<br/> Bill </th>
+    <th> %Work done <br/>in Current<br/> Bill </th>
     <th>Cum.%work done <br/> up to current<br/> Bill</th>
     <th>Cum Amt upto <br/> Prev Bill</th>
     <th>Cum Amt. up <br/>to Current <br/>bill</th>
@@ -15,7 +15,7 @@
   <tbody>
   <% old_rate_sum = 0 %>
   <% @project.issues.where.not(contract_amount: nil).each do |issue| %>
-      <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).first %>
+      <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).last %>
 
       <% if invoice_issue %>
           <tr class="<%= cycle('odd', 'even') %>">
