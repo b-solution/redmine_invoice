@@ -4,6 +4,7 @@
     <tr>
 
       <th>Invoice no </th>
+      <th> Consultancy fees </th>
       <th> S.tax </th>
       <th> Invoice Amt + tax </th>
       <th> TDS </th>
@@ -19,17 +20,33 @@
     </thead>
     <tbody>
     <% invoice_payments.each do |invoice_payment| %>
-        <tr>
+        <% if invoice_payment.payment_receipts.present? %>
+            <% invoice_payment.payment_receipts.each_with_index do |payment, idx| %>
+                <tr>
+                  <td> <%= link_to invoice_payment.id, project_invoice_path(@project, invoice_payment) %></td>
 
-          <td><%= link_to invoice_payment.id, project_invoice_path(@project, invoice_payment) %></td>
-          <td><%= invoice_payment.tax_amount %></td>
-          <td><%= invoice_payment.invoice_amount %></td>
-          <td> <%=invoice_payment.payment_receipts.last.try( :deductible_taxes) || '0' %> </td>
-          <td> <%=invoice_payment.payment_receipts.sum(:exp_cheque_amount) %> </td>
-          <td><%= invoice_payment.payment_receipts.last.try( :cheque_amount) || '-' %></td>
-          <td><%= invoice_payment.payment_receipts.last.try( :cheque_no)  || '-'%></td>
-          <td><%= invoice_payment.payment_receipts.last.try( :bank_name) || '-'%></td>
-        </tr>
+                  <% if idx.zero? %>
+                      <td> <%= invoice_payment.original_amount %></td>
+                      <td> <%= invoice_payment.tax_amount %></td>
+                      <td> <%= invoice_payment.invoice_amount %></td>
+                  <% else %>
+                      <td> </td>
+                      <td> </td>
+                      <td> </td>
+                <% end %>
+
+                  <td> <%= payment.deductible_taxes %> </td>
+                  <td> <%= payment.exp_cheque_amount %> </td>
+                  <td> <%= payment.try( :cheque_amount) || '-' %></td>
+                  <td> <%= payment.try( :cheque_no)  || '-'%></td>
+                  <td> <%= payment.try( :bank_name) || '-'%></td>
+            <% end %>
+            </tr>
+        <% end %>
+
+
+
+
     <% end %>
 
     </tbody>
