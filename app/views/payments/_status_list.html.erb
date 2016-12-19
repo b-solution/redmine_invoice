@@ -29,7 +29,7 @@
                       <td> <%= invoice_payment.original_amount %></td>
                       <td> <%= invoice_payment.tax_amount %></td>
                       <td> <%= invoice_payment.invoice_amount %></td>
-                      <td> <%= ((payment.deductible_taxes * invoice_payment.invoice_amount).to_f / 100 ).round(2) %> </td>
+                      <td> <%= ((payment.deductible_taxes * invoice_payment.original_amount).to_f / 100 ).round(2) %> </td>
                       <td> <%= payment.exp_cheque_amount %> </td>
                   <% else %>
                       <td> </td>
