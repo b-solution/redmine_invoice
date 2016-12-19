@@ -22,7 +22,7 @@ class InvoicesController < ApplicationController
     @project = @invoice.project
     @client = @invoice.client
     @taxes = @invoice.invoice_taxes
-    @payments = PaymentReceipt.where(invoice_id: @invoice.id )
+    @invoices_payments = Invoice.where(project_id: @project.id)
   end
 
   def new

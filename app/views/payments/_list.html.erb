@@ -3,15 +3,11 @@
     <thead>
     <tr>
 
-      <th>Invoice no </th>
-      <th> S.tax </th>
-      <th> Invoice Amt + tax </th>
-      <th> TDS </th>
-      <th> Net <br/> Amount </th>
-     
-      <th>Cheque amount</th>
-      <th>Cheque no & Date</th>
+      <th>Invoice number</th>
+      <th>Cheque Number</th>
       <th>Bank name</th>
+      <th>Check amount</th>
+
       <th></th>
       <th></th>
       <th></th>
@@ -20,16 +16,10 @@
     <tbody>
     <% payments.each do |payment| %>
         <tr>
-          
           <td><%= link_to payment.invoice.id, project_invoice_path(@project, payment.invoice) %></td>
-          <td></td>
-          <td></td>
-          <td> <%= payment.deductible_taxes %> </td>
-          <td></td>
-          <td><%= payment.cheque_amount %></td>
           <td><%= payment.cheque_no %></td>
           <td><%= payment.bank_name %></td>
-
+          <td><%= payment.cheque_amount %></td>
           <td><%= link_to 'show', project_payment_path(@project, payment) %></td>
           <td><%= link_to '', project_payment_path(@project,payment), method: 'delete', class: 'icon icon-del' %></td>
         </tr>
