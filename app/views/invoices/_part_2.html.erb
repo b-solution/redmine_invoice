@@ -19,7 +19,7 @@
 
       <% if invoice_issue %>
           <tr class="<%= cycle('odd', 'even') %>">
-            <td> <%= invoice_issue.item_number %></td>
+            <td> <%= invoice_issue.issue.item_number %></td>
             <td> <%= link_to "#{invoice_issue.issue.subject}", issue_path(invoice_issue.issue) %></td>
             <td> <%= invoice_issue.issue.contract_amount.round(2) %> </td>
             <td> <%= invoice_issue.old_qty.round(2) %>  % </td>
