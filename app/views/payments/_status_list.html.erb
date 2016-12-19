@@ -41,8 +41,12 @@
                   <td> <%= payment.try( :cheque_amount) || '-' %></td>
                   <td> <%= payment.try( :cheque_no)  || '-'%></td>
                   <td> <%= payment.try( :bank_name) || '-'%></td>
+
+                </tr>
             <% end %>
-            </tr>
+
+        <% else %>
+
         <% end %>
 
 
