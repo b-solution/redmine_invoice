@@ -26,10 +26,10 @@
                   <td> <%= link_to invoice_payment.id, project_invoice_path(@project, invoice_payment) %></td>
 
                   <% if idx.zero? %>
-                      <td> <%= invoice_payment.original_amount %></td>
+                      <td> <%= invoice_payment.issue_contract_amount.round(2) %></td>
                       <td> <%= invoice_payment.tax_amount %></td>
                       <td> <%= invoice_payment.invoice_amount %></td>
-                      <td> <%= ((payment.deductible_taxes * invoice_payment.original_amount).to_f / 100 ).round(2) %> </td>
+                      <td> <%= ((payment.deductible_taxes * invoice_payment.issue_contract_amount.round(2)).to_f / 100 ).round(2) %> </td>
                       <td> <%= payment.exp_cheque_amount %> </td>
                   <% else %>
                       <td> </td>
