@@ -11,8 +11,8 @@ class Tax < ActiveRecord::Base
 
   safe_attributes 'name', 'type', 'tax_applicables_attributes'
 
-  validates_presence_of :name, :rate, :type, :applicable_from
-  validates_numericality_of :rate, greater_than: 0
+  validates_presence_of :name,  :type
+#  validates_numericality_of :rate, greater_than: 0
 
   def self.get_classes_name
     subclasses.map(&:to_s)

@@ -3,9 +3,8 @@
     <thead>
     <tr>
       <th>Name</th>
-      <th>Rate</th>
+
       <th>Type</th>
-      <th>Applicable from</th>
       <th></th>
       <th></th>
     </tr>
@@ -14,9 +13,8 @@
     <% taxes.each do |tax| %>
         <tr>
           <td><%= tax.name %></td>
-          <td><%= tax.tax_applicable.rate %></td>
           <td><%= tax.type %></td>
-          <td><%= tax.tax_applicable.applicable_from %></td>
+        
           <td><%= link_to 'Edit', edit_tax_path(tax) %></td>
           <td><%= link_to 'remove', tax_path(tax), method: 'delete' %></td>
         </tr>

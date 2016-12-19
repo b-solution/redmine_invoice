@@ -7,6 +7,15 @@
 <div id="t1">
   <%= render partial: 'part_2' %>
 </div>
+<h2>Status of payments</h2>
+
+<% if @payments.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+<% else %>
+    <%= render :partial => 'payments/list', :locals => {:payments => @payments} %>
+    <p class="pagination"><%#= pagination_links_full @entry_pages, @entry_count %></p>
+<% end %>
+
 <br/>
 <br/>
 <br/>
