@@ -2,8 +2,7 @@
   <table class="subject_header">
     <%= issue_fields_rows do |rows|
       rows.left l(:field_project), @payment.project
-      rows.left l(:field_issue), @payment.invoice.issues_titles
-      rows.left l(:field_client), @payment.invoice.client
+       rows.left l(:field_client), @payment.invoice.client
       rows.left l(:field_invoice), @payment.invoice.id
       rows.left l(:field_invoice_amount), @payment.invoice.invoice_amount
       rows.left l(:field_tax_reimbursed_by_client), "#{@payment.invoice.reimbursed_tax}%"
