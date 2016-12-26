@@ -8,7 +8,7 @@ module  RedmineInvoice
         belongs_to :client
         has_many :invoices
 
-        validates_format_of :work_order_number, :with => /\A[A-Za-z0-9]+\Z/i
+        # validates_format_of :work_order_number, :with => /\A[A-Za-z0-9]+\Z/i
       end
     end
     module InstanceMethods
