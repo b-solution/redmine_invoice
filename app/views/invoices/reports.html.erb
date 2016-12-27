@@ -55,6 +55,7 @@
              d = 0
              tax_rec = 0
              tax_dec = 0
+
              cum_billed_without_taxes_fy = 0
              total_net_fy = 0
              total_chaque_amount_fy = 0
@@ -72,10 +73,14 @@
 
              fy_invoices = project.invoices.invoice_for_fy
              fy_invoices.each do |invoice|
-               cum_billed_without_taxes_fy += invoice.tax_amount
+               cum_billed_without_taxes_fy += invoice.issue_contract_amount
                payment = invoice.payment_receipts.invoice_for_fy.first
+
+
+               est_dec_amount = invoice.estimate_deductible_tax
+               total_net_fy += invoice.issue_contract_amount +  invoice.tax_amount - est_dec_amount
+
                if payment
-                 total_net_fy += payment.exp_cheque_amount.to_f
                  total_d_tax_fy += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
                end
                payments_fy = invoice.payment_receipts.invoice_for_fy
