@@ -81,14 +81,12 @@
                payment = invoice.payment_receipts.invoice_for_fy.first
                if payment
                  total_net_fy += payment.exp_cheque_amount.to_f
-                 tax_dec += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
                  total_d_tax_fy += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
                end
                payments_fy = invoice.payment_receipts.invoice_for_fy
                total_chaque_amount_fy += payments_fy.pluck(:cheque_amount).map(&:to_f).sum
 
                total_s_tax_fy += invoice.tax_amount
-
              end
           %>
 
@@ -98,7 +96,7 @@
           <td><%= c-d %> </td>
 
           <td><%= tax_rec  %></td>
-          <td><%= tax_dec%></td>
+          <td><%= tax_dec %></td>
           <td><%= cum_billed_without_taxes_fy %></td>
 
           <td><%= total_net_fy %></td>
