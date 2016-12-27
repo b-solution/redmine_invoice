@@ -65,7 +65,7 @@
              invoices.each do |invoice|
                est_dec_amount = invoice.estimate_deductible_tax
                c += invoice.issue_contract_amount +  invoice.tax_amount - est_dec_amount
-               tax_dec += invoice.tds
+               tax_dec += invoice.tds.to_f
                d+= invoice.payment_receipts.pluck(:cheque_amount).map(&:to_f).sum
                tax_rec += invoice.tax_amount
              end
