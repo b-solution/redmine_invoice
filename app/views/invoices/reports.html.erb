@@ -65,7 +65,7 @@
              invoices.each do |invoice|
                payment = invoice.payment_receipts.first
                est_dec_amount = invoice.estimate_deductible_tax
-               c += invoice.issue_contract_amount - est_dec_amount
+               c += invoice.issue_contract_amount +  invoice.tax_amount - est_dec_amount
                if payment
                  tax_dec += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
                else
