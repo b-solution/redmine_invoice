@@ -47,6 +47,11 @@ class Invoice < ActiveRecord::Base
     (d_tax * invoice_base_amount).to_f / 100
   end
 
+  def tds
+    payment = invoice_payment.payment_receipts.first || PaymentReceipt.new
+    ((payment.deductible_taxes * invoice_payment.issue_contract_amount.round(2)).to_f / 100 ).round(2)
+  end
+
   def deletable?
     User.current.allowed_to_globally?(:manage_invoices) and payment_receipts.empty?
   end

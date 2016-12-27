@@ -63,14 +63,9 @@
 
              invoices = project.invoices
              invoices.each do |invoice|
-               payment = invoice.payment_receipts.first
                est_dec_amount = invoice.estimate_deductible_tax
                c += invoice.issue_contract_amount +  invoice.tax_amount - est_dec_amount
-               if payment
-                 tax_dec += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
-               else
-                 tax_dec += est_dec_amount
-               end
+               tax_dec += invoice.tds
                d+= invoice.payment_receipts.pluck(:cheque_amount).map(&:to_f).sum
                tax_rec += invoice.tax_amount
              end
