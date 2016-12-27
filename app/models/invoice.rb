@@ -32,6 +32,21 @@ class Invoice < ActiveRecord::Base
     invoice_issues.map(&:issue).map(&:subject).join('<br/>').html_safe
   end
 
+  def self.invoice_for_fy
+    if Date.today.month > 4
+      where('created_at >= ?', Date.parse("01/04/#{Date.today.year}"))
+    else
+      where('created_at >= ?', Date.parse("01/04/#{Date.today.year - 1}"))
+    end
+  end
+
+  def estimate_deductible_tax
+    invoice_base_amount =  self.issue_contract_amount
+    last_d_tax = DeductibleTax.active.map{|t| t.tax_applicable }
+    d_tax = last_d_tax ? last_d_tax.map{|t| t.rate }.sum : 0
+    (d_tax * invoice_base_amount).to_f / 100
+  end
+
   def deletable?
     User.current.allowed_to_globally?(:manage_invoices) and payment_receipts.empty?
   end
@@ -44,7 +59,7 @@ class Invoice < ActiveRecord::Base
     invoice_taxes.where('rate < 0').sum(:rate)
   end
 
- def reimbursed_tax
+  def reimbursed_tax
     invoice_taxes.where('rate > 0').sum(:rate)
   end
 end

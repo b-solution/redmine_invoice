@@ -3,7 +3,11 @@
 
 resources :clients
 resources :taxes
-resources :invoices, only: [:new]
+resources :invoices, only: [:new] do
+  collection do
+    get 'reports'
+  end
+end
 resources :projects do
   resources :invoices, except: [:edit, :update] do
     member do

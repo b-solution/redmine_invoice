@@ -4,7 +4,7 @@ module  RedmineInvoice
     def self.included(base)
       base.send(:include, InstanceMethods)
       base.class_eval do
-        safe_attributes 'client_id', 'work_order_date', 'work_order_number'
+        safe_attributes 'client_id', 'work_order_date', 'work_order_number', 'project_code'
         belongs_to :client
         has_many :invoices
 

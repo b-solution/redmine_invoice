@@ -1,8 +1,8 @@
 <%
-   invoice_base_amount =  @payment.invoice.issue_contract_amount
    invoice_amount = @payment.invoice.invoice_amount
-   last_d_tax = DeductibleTax.active.map{|t| t.tax_applicable}
-   d_tax = last_d_tax ? last_d_tax.map{|t| t.rate}.sum : 0
+   invoice_base_amount =  @payment.invoice.issue_contract_amount
+   last_d_tax = DeductibleTax.active.map{|t| t.tax_applicable }
+   d_tax = last_d_tax ? last_d_tax.map{|t| t.rate }.sum : 0
    d_tax_applied = (d_tax * invoice_base_amount).to_f / 100
    old_payments = PaymentReceipt.where(invoice_id: @payment.invoice_id)
    what_i_paid = old_payments.map{|p| p.cheque_amount.to_f }.sum

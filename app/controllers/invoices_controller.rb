@@ -2,7 +2,7 @@ class InvoicesController < ApplicationController
   unloadable
   before_action :set_invoice, only: [:edit, :update, :destroy, :show, :part_2]
   before_action :authorize_global
-  before_action :find_project_by_project_id
+  before_action :find_project_by_project_id, except: [:reports]
 
   helper :issues
   include IssuesHelper
@@ -10,6 +10,10 @@ class InvoicesController < ApplicationController
 
   def index
     @invoices = @project.invoices
+  end
+
+  def reports
+    @projects = Project.active.all
   end
 
   def show

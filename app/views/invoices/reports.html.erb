@@ -1,0 +1,108 @@
+<div class="autoscroll">
+
+
+  <table class="list table">
+    <thead>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <th>Sl no</th>
+      <th>Name of Project </th>
+      <th>Project Code</th>
+      <th> Work Order Date </th>
+      <th> Start date </th>
+      <th>Expected <br/>Finish</th>
+      <th>Work order<br/> Amount ( A)</th>
+      <th>Cum Amt <br/>billed without <br/>any taxes(B)</th>
+      <th>A - B </th>
+      <th>Total Net <br/>amount(C)</th>
+      <th>Total cheque <br/>amount(D)</th>
+      <th>C - D</th>
+      <th>Total Service<br/> Tax recd</th>
+      <th>Total Income <br/>tax deducted</th>
+      <th>Cum Amt<br/> billed without <br/>any taxes in current <br/>financial year(a)</th>
+      <th>Total net<br/> Amount in<br/> Current FY</th>
+      <th>Total Cheque <br/>amt recd <br/>Current FY</th>
+      <th>Total <br/>S.Tax in <br/>Current FY</th>
+      <th>Total Income <br/>tax Deducted in <br/>Current FY</th>
+      <th>Asigned to</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @projects.each_with_index do |project, idx| %>
+        <tr>
+          <td><%= idx + 1 %></td>
+          <td><%= project.name %></td>
+          <td><%= project.project_code %></td>
+          <td><%= format_date project.work_order_date %></td>
+          <td><%= format_date(project.work_order_date + 7.days) %></td>
+          <td><%= format_date project.invoices.last.try :created_at %></td>
+          <% a = project.issues.sum :contract_amount %>
+          <td><%= a %></td>
+          <% b = project.invoices.sum :issue_contract_amount %>
+          <td><%= b %></td>
+          <td><%= a - b  %></td>
+          <%
+             # Initiate variables
+             c = 0
+             d = 0
+             tax_rec = 0
+             tax_dec = 0
+             cum_billed_without_taxes_fy = 0
+             total_net_fy = 0
+             total_chaque_amount_fy = 0
+             total_s_tax_fy = 0
+             total_d_tax_fy = 0
+
+             invoices = project.invoices
+             invoices.each do |invoice|
+               payment = invoice.payment_receipts.first
+               if payment
+                 c += payment.exp_cheque_amount.to_f
+                 tax_dec += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
+               else
+                 est_dec_amount = invoice.estimate_deductible_tax
+                 c += invoice.issue_contract_amount - est_dec_amount
+                 tax_dec += est_dec_amount
+               end
+               d+= invoice.payment_receipts.pluck(:cheque_amount).map(&:to_f).sum
+               tax_rec += invoice.tax_amount
+             end
+
+             fy_invoices = project.invoices.invoice_for_fy
+             fy_invoices.each do |invoice|
+               cum_billed_without_taxes_fy += invoice.tax_amount
+               payment = invoice.payment_receipts.invoice_for_fy.first
+               if payment
+                 total_net_fy += payment.exp_cheque_amount.to_f
+                 tax_dec += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
+                 total_d_tax_fy += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
+
+
+               end
+               payments_fy = invoice.payment_receipts.invoice_for_fy
+               d+= payments_fy.pluck(:cheque_amount).map(&:to_f).sum
+               total_chaque_amount_fy += payments_fy.pluck(:cheque_amount).map(&:to_f).sum
+
+               total_s_tax_fy += invoice.tax_amount
+
+             end
+          %>
+
+
+          <td><%= c %></td>
+          <td><%= d %></td>
+          <td><%= c-d %> </td>
+          <td><%= tax_rec  %></td>
+          <td><%= tax_dec%></td>
+          <td><%= cum_billed_without_taxes_fy %></td>
+          <td><%= total_net_fy %></td>
+          <td><%= total_chaque_amount_fy %></td>
+          <td><%= total_s_tax_fy %></td>
+          <td><%= total_d_tax_fy %></td>
+          <td></td>
+        </tr>
+
+    <% end %>
+    </tbody>
+  </table>
+
+</div>

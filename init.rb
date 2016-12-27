@@ -9,6 +9,7 @@ Redmine::Plugin.register :redmine_invoice do
   project_module :redmine_invoice do
     permission :view_invoices, :invoices => [:index, :show]
     permission :manage_invoices, :invoices => [:new, :create, :destroy, :edit, :update]
+    permission :view_invoice_report, :invoices => [:reports]
 
     permission :view_payment, :payments => [:index, :show]
     permission :manage_payment, :payments => [:new, :create, :destroy, :edit, :update]
@@ -48,6 +49,7 @@ Rails.application.config.to_prepare do
   require_dependency 'redmine_invoice/hooks'
 
   Project.send(:include, RedmineInvoice::ProjectPatch)
+  ProjectsHelper.send(:include, RedmineInvoice::ProjectsHelperPatch)
   Issue.send(:include, RedmineInvoice::IssuePatch)
 end
 
