@@ -32,16 +32,21 @@
             <td>   <%= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
           </tr>
       <% else %>
-          <% invoice_issues = InvoiceIssue.where(issue_id: issue.id) %>
+          <% invoice_issues = InvoiceIssue.where(issue_id: issue.id).where('invoice_id < ?', @invoice.id)  %>
           <tr class="<%= cycle('odd', 'even') %>">
             <td> <%= issue.item_number %></td>
             <td> <%= link_to "#{issue.subject}", issue_path(issue) %></td>
             <td> <%= issue.contract_amount %> </td>
-            <td> 0  </td>
-            <td> 0 % </td>
-            <td> 0 % </td>
-            <td>   0   </td>
-            <td> 0  </td>
+            <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
+            <td> 0.0%  </td>
+
+            <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
+            <%   old_rate_sum += invoice_issues.sum(:rate) %>
+
+            <td>   <%= invoice_issues.sum(:rate).round(2) %>   </td>
+            <% rate_sum+= invoice_issues.sum(:rate).round(2) %>
+            <td>  <%= invoice_issues.sum(:rate).round(2) %>  </td>
+
           </tr>
       <% end %>
   <% end %>
