@@ -33,7 +33,7 @@
           <td><%= project.name %></td>
           <td><%= project.project_code %></td>
           <td><%= format_date project.work_order_date %></td>
-          <td><%= format_date(project.work_order_date + 7.days) %></td>
+          <td><%= format_date(project.work_order_date + 7.days) if project.work_order_date %></td>
           <td><%= format_date project.invoices.last.try :created_at %></td>
           <% a = project.issues.sum :contract_amount %>
           <td><%= a %></td>
@@ -75,8 +75,6 @@
                  total_net_fy += payment.exp_cheque_amount.to_f
                  tax_dec += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
                  total_d_tax_fy += ((payment.deductible_taxes * invoice.issue_contract_amount.round(2)).to_f / 100 ).round(2)
-
-
                end
                payments_fy = invoice.payment_receipts.invoice_for_fy
                d+= payments_fy.pluck(:cheque_amount).map(&:to_f).sum
