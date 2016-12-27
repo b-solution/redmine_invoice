@@ -49,7 +49,7 @@ class Invoice < ActiveRecord::Base
 
   def tds
     payment = self.payment_receipts.first || PaymentReceipt.new
-    ((payment.deductible_taxes * self.issue_contract_amount.round(2)).to_f / 100 ).round(2)
+    ((payment.deductible_taxes.to_f * self.issue_contract_amount.round(2)).to_f / 100 ).round(2)
   end
 
   def deletable?
