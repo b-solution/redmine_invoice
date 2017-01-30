@@ -1,5 +1,15 @@
 <div class="autoscroll">
+<style>
+table {
+  border-collapse: collapse;
+}
 
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+</style>
 
   <table class="list table">
     <thead>
@@ -20,21 +30,21 @@
       <th>Total cheque <br/>amount(D)</th>
       <th>C - D</th>
 
-      <th>Total Service<br/> Tax recd</th>
+      <th>Total Service<br/> Tax billed</th>
       <th>Total Income <br/>tax deducted</th>
       <th>Cum Amt<br/> billed without <br/>any taxes in current <br/>financial year(a)</th>
 
       <th>Total net<br/> Amount in<br/> Current FY</th>
       <th>Total Cheque <br/>amt recd <br/>Current FY</th>
-      <th>Total <br/>S.Tax in <br/>Current FY</th>
+      <th>Total <br/>S.Tax billed in <br/>Current FY</th>
       <th>Total Income <br/>tax Deducted in <br/>Current FY</th>
 
-      <th>Asigned to</th>
+    
     </tr>
     </thead>
     <tbody>
     <% @projects.each_with_index do |project, idx| %>
-        <tr>
+        <tr class="<%= cycle('odd', 'even') %>" >
           <td><%= idx + 1 %></td>
           <td><%= project.name %></td>
           <td><%= project.project_code %></td>

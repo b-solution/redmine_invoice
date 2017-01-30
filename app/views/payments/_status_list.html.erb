@@ -1,7 +1,7 @@
 <div class="autoscroll">
   <table class="list issues">
     <thead>
-    <tr>
+    <tr class="<%= cycle('odd', 'even') %>">
 
       <th>Invoice no </th>
       <th> Consultancy fees </th>
@@ -22,7 +22,7 @@
     <% invoice_payments.each do |invoice_payment| %>
         <% if invoice_payment.payment_receipts.present? %>
             <% invoice_payment.payment_receipts.each_with_index do |payment, idx| %>
-                <tr>
+                <tr class="<%= cycle('odd', 'even') %>">
                   <td> <%= link_to invoice_payment.id, project_invoice_path(@project, invoice_payment) %></td>
 
                   <% if idx.zero? %>
