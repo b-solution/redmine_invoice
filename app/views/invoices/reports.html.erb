@@ -17,7 +17,7 @@ td, th {
       <th>Sl no</th>
       <th>Name of Project </th>
       <th>Project Code</th>
-
+         <th> Name of Client</th>
       <th> Work Order Date </th>
       <th> Start date </th>
       <th>Expected <br/>Finish</th>
@@ -48,7 +48,7 @@ td, th {
           <td><%= idx + 1 %></td>
           <td><%= project.name %></td>
           <td><%= project.project_code %></td>
-
+<td> <%= project.client %></td>
           <td><%= format_date project.work_order_date %></td>
           <td><%= format_date(project.work_order_date + 7.days) if project.work_order_date %></td>
           <td><%= format_date project.issues.pluck(:due_date).compact.max %></td>

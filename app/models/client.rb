@@ -3,7 +3,7 @@ class Client < ActiveRecord::Base
 
   include Redmine::SafeAttributes
 
-  safe_attributes 'name', 'home_address', 'phone', 'email'
+  safe_attributes 'name', 'home_address' ,'home_address_2', 'phone', 'email'
 
   validates_presence_of :name, :email
 
