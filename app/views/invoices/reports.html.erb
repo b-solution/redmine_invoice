@@ -38,6 +38,7 @@ td, th {
       <th>Total Cheque <br/>amt recd <br/>Current FY</th>
       <th>Total <br/>S.Tax billed in <br/>Current FY</th>
       <th>Total Income <br/>tax Deducted in <br/>Current FY</th>
+      <th>Assigned To</th>
 
     
     </tr>
@@ -114,7 +115,7 @@ td, th {
           <td><%= total_s_tax_fy %></td>
           <td><%= total_d_tax_fy %></td>
 
-          <td></td>
+          <td><%= project.default_user.try(:name) %></td>
         </tr>
 
     <% end %>

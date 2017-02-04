@@ -4,6 +4,9 @@
 <% if project.safe_attribute? 'work_order_date' %>
     <p><%= form.date_field :work_order_date %> <%= calendar_for('project_work_order_date') %></p>
 <% end %>
+<% if project.safe_attribute? 'default_user_id' %>
+    <p><%= form.select :default_user_id, User.active.map{|u| [u.name, u.id]}%> </p>
+<% end %>
 <% if project.safe_attribute? 'project_code' %>
     <p><%= form.text_field :project_code %></p>
 <% end %>

@@ -32,3 +32,5 @@ en:
   field_item_number: Item no
   label_new_tax: New tax
   field_home_address_2: Second addess
+  field_default_user: Default User
+  field_project_code: Project Code
