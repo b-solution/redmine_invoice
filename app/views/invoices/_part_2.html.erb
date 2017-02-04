@@ -1,64 +1,65 @@
+<div class="autoscroll">
+  <table class="list table">
+    <thead>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <th>Item no</th>
+      <th>Description</th>
+      <th>Contract amount</th>
+      <th>Cum. %work done <br/> upto Prev Bill</th>
+      <th> %Work done <br/>in Current<br/> Bill </th>
+      <th>Cum.%work done <br/> up to current<br/> Bill</th>
+      <th>Cum Amt upto <br/> Prev Bill</th>
+      <th>Cum Amt. up <br/>to Current <br/>bill</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% old_rate_sum = 0 %>
+    <% rate_sum = 0 %>
+    <% @project.issues.where.not(contract_amount: nil).each do |issue| %>
+        <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).last %>
 
-<table class="list table">
-  <thead>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <th>Item no</th>
-    <th>Description</th>
-    <th>Contract amount</th>
-    <th>Cum. %work done <br/> upto Prev Bill</th>
-    <th> %Work done <br/>in Current<br/> Bill </th>
-    <th>Cum.%work done <br/> up to current<br/> Bill</th>
-    <th>Cum Amt upto <br/> Prev Bill</th>
-    <th>Cum Amt. up <br/>to Current <br/>bill</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% old_rate_sum = 0 %>
-  <% rate_sum = 0 %>
-  <% @project.issues.where.not(contract_amount: nil).each do |issue| %>
-      <% invoice_issue = InvoiceIssue.where(issue_id: issue.id).where(invoice_id: @invoice.id).last %>
+        <% if invoice_issue %>
+            <tr class="<%= cycle('odd', 'even') %>">
+              <td> <%= invoice_issue.issue.item_number %></td>
+              <td> <%= link_to "#{invoice_issue.issue.subject}", issue_path(invoice_issue.issue) %></td>
+              <td> <%= invoice_issue.issue.contract_amount.round(2) %> </td>
+              <td> <%= invoice_issue.old_qty.round(2) %>  % </td>
+              <td> <%= invoice_issue.ratio_done.round(2) %> %  </td>
+              <td> <%= (invoice_issue.old_qty + invoice_issue.ratio_done).round(2) %> % </td>
+              <% old_rate_sum += invoice_issue.old_rate %>
+              <td>   <%= invoice_issue.old_rate.round(2) %>  </td>
+              <% rate_sum+= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>
+              <td>   <%= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
+            </tr>
+        <% else %>
+            <% invoice_issues = InvoiceIssue.where(issue_id: issue.id).where('invoice_id < ?', @invoice.id)  %>
+            <tr class="<%= cycle('odd', 'even') %>">
+              <td> <%= issue.item_number %></td>
+              <td> <%= link_to "#{issue.subject}", issue_path(issue) %></td>
+              <td> <%= issue.contract_amount %> </td>
+              <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
+              <td> 0.0%  </td>
 
-      <% if invoice_issue %>
-          <tr class="<%= cycle('odd', 'even') %>">
-            <td> <%= invoice_issue.issue.item_number %></td>
-            <td> <%= link_to "#{invoice_issue.issue.subject}", issue_path(invoice_issue.issue) %></td>
-            <td> <%= invoice_issue.issue.contract_amount.round(2) %> </td>
-            <td> <%= invoice_issue.old_qty.round(2) %>  % </td>
-            <td> <%= invoice_issue.ratio_done.round(2) %> %  </td>
-            <td> <%= (invoice_issue.old_qty + invoice_issue.ratio_done).round(2) %> % </td>
-            <% old_rate_sum += invoice_issue.old_rate %>
-            <td>   <%= invoice_issue.old_rate.round(2) %>  </td>
-            <% rate_sum+= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>
-            <td>   <%= (invoice_issue.old_rate +  invoice_issue.rate).round(2) %>  </td>
-          </tr>
-      <% else %>
-          <% invoice_issues = InvoiceIssue.where(issue_id: issue.id).where('invoice_id < ?', @invoice.id)  %>
-          <tr class="<%= cycle('odd', 'even') %>">
-            <td> <%= issue.item_number %></td>
-            <td> <%= link_to "#{issue.subject}", issue_path(issue) %></td>
-            <td> <%= issue.contract_amount %> </td>
-            <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
-            <td> 0.0%  </td>
+              <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
+              <%   old_rate_sum += invoice_issues.sum(:rate) %>
 
-            <td> <%= invoice_issues.sum(:ratio_done).round(2) %> % </td>
-            <%   old_rate_sum += invoice_issues.sum(:rate) %>
+              <td>   <%= invoice_issues.sum(:rate).round(2) %>   </td>
+              <% rate_sum+= invoice_issues.sum(:rate).round(2) %>
+              <td>  <%= invoice_issues.sum(:rate).round(2) %>  </td>
 
-            <td>   <%= invoice_issues.sum(:rate).round(2) %>   </td>
-            <% rate_sum+= invoice_issues.sum(:rate).round(2) %>
-            <td>  <%= invoice_issues.sum(:rate).round(2) %>  </td>
-
-          </tr>
-      <% end %>
-  <% end %>
-  <tr class="<%= cycle('odd', 'even') %>">
-    <td> </td>
-    <td> </td>
-    <td>   </td>
-    <td> </td>
-    <td> </td>
-    <td> </td>
-    <td> <%= old_rate_sum %> </td>
-    <td> <%= rate_sum %></td>
-  </tr>
-  </tbody>
-</table>
+            </tr>
+        <% end %>
+    <% end %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td> </td>
+      <td> </td>
+      <td>   </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> <%= old_rate_sum %> </td>
+      <td> <%= rate_sum %></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
